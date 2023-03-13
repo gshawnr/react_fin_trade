@@ -1,0 +1,51 @@
+nav {
+  margin: 0 auto 2%;
+  padding: 1% 0;
+  justify-content: center;
+}
+
+.hamburger {
+  display: none;
+}
+
+nav a {
+  color: #112d4e;
+  display: block;
+  padding: 1%;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.navlinks {
+  display: flex;
+  justify-content: center;
+}
+
+.active-link {
+  text-decoration: underline;
+  font-weight: bolder;
+}
+
+@media (max-width: 700px) {
+  nav {
+    /* display: none; */
+  }
+}
+
+@media (max-width: 700px) {
+  nav {
+    justify-content: start;
+    margin: 5%;
+  }
+  .hamburger {
+    display: block;
+  }
+  .navlinks {
+    display: none;
+  }
+  .navlinks-expand {
+    display: block;
+  }
+}

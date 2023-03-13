@@ -1,0 +1,27 @@
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #dbe2ef;
+  /* margin: 0 auto; */
+  min-height: 100vh;
+}
+
+.container {
+  margin: 2% 5%;
+  min-height: 100vh;
+}
+
+a {
+  color: #eaeaea;
+  font-size: x-large;
+  margin: 0 2rem;
+}
+
+nav {
+  display: flex;
+  justify-content: center;
+}
