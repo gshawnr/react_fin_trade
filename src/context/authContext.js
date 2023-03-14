@@ -12,9 +12,9 @@ const authReducer = (state, action) => {
   }
 };
 
-const signin = (dispatch) => {
+const Login = (dispatch) => {
   return ({ username, password }) => {
-    dispatch({ action: "signin", payload: { username, password } });
+    dispatch({ action: "Login", payload: { username, password } });
   };
 };
 
@@ -26,7 +26,7 @@ const signup = (dispatch) => {
 
 export const { Context, Provider } = createDataContext(
   authReducer,
-  { signin, signup },
+  { Login, signup },
   {
     isLoading: true,
     isSignedIn: false,

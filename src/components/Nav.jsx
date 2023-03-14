@@ -14,8 +14,8 @@ function Nav() {
 
   const links = [
     { name: "Home", path: "/" },
-    { name: "Sigin", path: "/signin" },
-    { name: "Signout", path: "/signout" },
+    { name: "Login", path: "/Login" },
+    { name: "Logout", path: "/Logout" },
   ];
 
   const navExpand = (e) => {

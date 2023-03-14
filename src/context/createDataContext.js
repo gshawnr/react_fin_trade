@@ -1,6 +1,6 @@
 import React, { useReducer } from "react";
 
-export default (reducer, actions, initialState) => {
+const authContext = (reducer, actions, initialState) => {
   const Context = React.createContext();
 
   const Provider = ({ children }) => {
@@ -21,3 +21,5 @@ export default (reducer, actions, initialState) => {
 
   return { Context, Provider };
 };
+
+export default authContext;
