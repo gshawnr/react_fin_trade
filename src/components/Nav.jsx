@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import "./Nav.css";
 
 function Nav() {
@@ -14,8 +14,8 @@ function Nav() {
 
   const links = [
     { name: "Home", path: "/" },
-    { name: "Login", path: "/Login" },
-    { name: "Logout", path: "/Logout" },
+    { name: "Login", path: "/login" },
+    { name: "Summary", path: "/summary" },
   ];
 
   const navExpand = (e) => {
@@ -34,13 +34,13 @@ function Nav() {
         </a>
         <div className={navlinksClass}>
           {links.map((thisLink) => (
-            <a
+            <Link
               key={thisLink.name}
               className={activePath === thisLink.path ? "active-link" : ""}
-              href={thisLink.path}
+              to={thisLink.path}
             >
               {thisLink.name}
-            </a>
+            </Link>
           ))}
         </div>
       </div>

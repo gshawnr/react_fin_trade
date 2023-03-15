@@ -12,6 +12,7 @@ nav a {
   color: #112d4e;
   display: block;
   padding: 1%;
+  text-decoration: none;
 }
 
 a:hover {

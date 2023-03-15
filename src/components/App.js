@@ -1,24 +1,28 @@
 import "./App.css";
 import React, { useContext } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 
 import {
   Context as AuthContext,
   Provider as AuthProvider,
 } from "../context/authContext";
 
+import { navigationHelper } from "../utils/navigationHelper";
+
 import Home from "../screens/Home";
 import Login from "../screens/Login";
-import Logout from "../screens/Logout";
+import Summary from "../screens/Summary";
 
 function App() {
-  const { state } = useContext(AuthContext);
-  console.log("auth state", state);
+  const { state: authState } = useContext(AuthContext);
+  navigationHelper.navigate = useNavigate();
+  navigationHelper.locaction = useLocation();
+
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/Login" element={<Login />} />
-      <Route path="/Logout" element={<Logout />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/summary" element={<Summary />} />
     </Routes>
   );
 }
