@@ -128,6 +128,7 @@ function EnhancedTableToolbar(props) {
 
   return (
     <Toolbar
+      className="tableHeader"
       sx={{
         pl: { sm: 2 },
         pr: { xs: 1, sm: 1 },
@@ -156,7 +157,7 @@ function EnhancedTableToolbar(props) {
           id="tableTitle"
           component="div"
         >
-          Key Statistics
+          Overview
         </Typography>
       )}
       {numSelected > 0 ? (
@@ -259,13 +260,13 @@ export default function EnhancedTable({ rows, columns }) {
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
   return (
-    <Box sx={{ width: "100%" }}>
+    <Box className="" sx={{ width: "100%" }}>
       <Paper sx={{ width: "100%", mb: 2 }}>
         <EnhancedTableToolbar
           numSelected={selected.length}
           handleFilter={handleFilter}
         />
-        <TableContainer>
+        <TableContainer className="tableBody">
           <Table
             sx={{ minWidth: 750 }}
             aria-labelledby="tableTitle"
@@ -331,6 +332,7 @@ export default function EnhancedTable({ rows, columns }) {
           </Table>
         </TableContainer>
         <TablePagination
+          className="tableFooter"
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
           count={rows.length}
