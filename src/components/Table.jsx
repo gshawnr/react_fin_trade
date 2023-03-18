@@ -1,5 +1,5 @@
 // import * as React from "react";
-import React, { useState, useEffect, componentDidMount } from "react";
+import React, { useState, useEffect } from "react";
 import { alpha } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Table from "@mui/material/Table";
@@ -177,21 +177,28 @@ function EnhancedTableToolbar(props) {
   );
 }
 
-export default function EnhancedTable({ columns, getPageOfData }) {
+export default function EnhancedTable({
+  columns,
+  getPageOfData,
+  primaryKeyName,
+}) {
+  const INITIAL_PAGE_SIZE = 10;
   const [order, setOrder] = useState("asc");
-  const [orderBy, setOrderBy] = useState("ticker_year");
+  const [orderBy, setOrderBy] = useState(primaryKeyName);
   const [selected, setSelected] = useState([]);
   const [pageNum, setPageNum] = useState(0);
   const [dense, setDense] = useState(false);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(INITIAL_PAGE_SIZE);
   const [tableColumns, setTableColumns] = useState(columns);
   const [rows, setRows] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
+
+  // pageRequested object is used to fetch backend data - matches backend pagination;
   const [pageRequested, setPageRequested] = useState({
-    refDocTickerYear: "0",
-    pageSize: rowsPerPage,
-    pageChange: "next",
-    sortField: "ticker_year",
+    primaryKeyValue: "0",
+    pageSize: INITIAL_PAGE_SIZE,
+    pageChangeDirection: "next",
+    sortField: primaryKeyName,
     sortDirection: "asc",
   });
 
@@ -243,6 +250,7 @@ export default function EnhancedTable({ columns, getPageOfData }) {
   };
 
   const handleFilter = (event, name) => {
+    // handle reset of filters
     if (tableColumns.length < columns.length) {
       return setTableColumns(columns);
     }
@@ -262,18 +270,40 @@ export default function EnhancedTable({ columns, getPageOfData }) {
     setTableColumns(filtered);
   };
 
-  const handleChangePage = async (event, newPage) => {
+  const handleChangePage = (event, newPage) => {
+    let primaryKeyValue;
+    let newPageRequested;
+    if (newPage > pageNum) {
+      // get reference to last row primary key value
+      primaryKeyValue = rows[rows.length - 1][primaryKeyName];
+      newPageRequested = {
+        ...pageRequested,
+        primaryKeyValue,
+        pageChangeDirection: "next",
+      };
+    } else {
+      // get reference to first row primary key value
+      primaryKeyValue = rows[0][primaryKeyName];
+      newPageRequested = {
+        ...pageRequested,
+        primaryKeyValue,
+        pageChangeDirection: "prev",
+      };
+    }
+    setPageRequested(newPageRequested);
     setPageNum(newPage);
-    // TODO handle decrease as well as increase
-    let refDocTickerYear = rows[rows.length - 1].ticker_year;
-    setPageRequested({ ...pageRequested, refDocTickerYear });
   };
 
   const handleChangeRowsPerPage = async (event) => {
     const size = parseInt(event.target.value, 10);
     setPageNum(0);
     setRowsPerPage(size);
-    setPageRequested({ ...pageRequested, pageSize: size });
+    setPageRequested({
+      ...pageRequested,
+      primaryKeyValue: "0",
+      pageSize: size,
+      pageChangeDirection: "next",
+    });
   };
 
   const handleChangeDense = (event) => {
@@ -282,10 +312,8 @@ export default function EnhancedTable({ columns, getPageOfData }) {
 
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
-  // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows = 0;
-  // pageNum > 0 ? Math.max(0, (1 + pageNum) * rows.length - rows.length) : 0;
-
+  // Add empty rows (if required) on final page to avoid layout "jumping"
+  const emptyRows = pageNum > 0 ? Math.max(0, rowsPerPage - rows.length) : 0;
   return (
     <Box className="" sx={{ width: "100%" }}>
       <Paper sx={{ width: "100%", mb: 2 }}>
@@ -305,27 +333,25 @@ export default function EnhancedTable({ columns, getPageOfData }) {
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={rows.length} // used to determine all rows are checked - page only.
+              rowCount={rows.length}
               columns={tableColumns}
             />
             <TableBody>
-              {stableSort(rows, getComparator(order, orderBy))
-                // .slice(
-                //   pageNum * rows.length,
-                //   pageNum * rows.length + rows.length
-                // ) // FIXME remove ln
-                .map((row, index) => {
-                  const isItemSelected = isSelected(row.ticker_year);
+              {stableSort(rows, getComparator(order, orderBy)).map(
+                (row, index) => {
+                  const isItemSelected = isSelected(row[primaryKeyName]);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
                     <TableRow
                       hover
-                      onClick={(event) => handleClick(event, row.ticker_year)}
+                      onClick={(event) =>
+                        handleClick(event, row[primaryKeyName])
+                      }
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
-                      key={row.ticker_year}
+                      key={row[primaryKeyName]}
                       selected={isItemSelected}
                     >
                       <TableCell padding="checkbox">
@@ -348,7 +374,8 @@ export default function EnhancedTable({ columns, getPageOfData }) {
                       })}
                     </TableRow>
                   );
-                })}
+                }
+              )}
               {emptyRows > 0 && (
                 <TableRow
                   style={{
@@ -366,7 +393,6 @@ export default function EnhancedTable({ columns, getPageOfData }) {
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
           count={totalCount}
-          // count="3"
           rowsPerPage={rowsPerPage}
           page={pageNum}
           onPageChange={handleChangePage}

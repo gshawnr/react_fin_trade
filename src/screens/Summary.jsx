@@ -6,28 +6,19 @@ import beApi from "../api/beApi";
 
 function Summary() {
   const { state: authState } = useContext(AuthContext);
-  // const [rowData, setRowData] = useState([]);
-  // const [totalCount, setTotalCount] = useState(0);
-  // const [pageRequested, setPageRequested] = useState({
-  //   refDocTickerYear: "0",
-  //   pageSize: 10,
-  //   pageChange: "next",
-  //   sortField: "ticker_year",
-  //   sortDirection: "asc",
-  // });
 
   const fetchData = async (params) => {
     try {
       const {
-        refDocTickerYear,
+        primaryKeyValue,
         pageSize,
-        pageChange,
+        pageChangeDirection,
         sortDirection,
         sortField,
       } = params;
       //TODO fix url string
       const response = await beApi.get(
-        `/summary?refDocTickerYear=${refDocTickerYear}&pageSize=${pageSize}&pageChange=${pageChange}&sortField=${sortField}&sortDirection=${sortDirection}`
+        `/summary?refDocTickerYear=${primaryKeyValue}&pageSize=${pageSize}&pageChangeDirection=${pageChangeDirection}&sortField=${sortField}&sortDirection=${sortDirection}`
       );
       if (response?.data) {
         const { data = [], count } = response.data;
@@ -41,7 +32,13 @@ function Summary() {
   if (!authState.isSignedIn) {
     return <h1>Please sign In</h1>;
   }
-  return <DataTable columns={columns} getPageOfData={fetchData} />;
+  return (
+    <DataTable
+      columns={columns}
+      getPageOfData={fetchData}
+      primaryKeyName="ticker_year"
+    />
+  );
 }
 
 // TODO move to separate file
