@@ -1,11 +1,19 @@
-import React, { useContext, useState, useEffect } from "react";
-
+import React, { useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Context as AuthContext } from "../context/authContext";
 import DataTable from "../components/Table";
 import beApi from "../api/beApi";
 
 function Summary() {
   const { state: authState } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!authState.isSignedIn) {
+      // return <h1>Please sign In</h1>;
+      navigate("/login");
+    }
+  });
 
   const fetchData = async (params) => {
     try {
@@ -29,16 +37,15 @@ function Summary() {
     }
   };
 
-  if (!authState.isSignedIn) {
-    return <h1>Please sign In</h1>;
+  if (authState.isSignedIn) {
+    return (
+      <DataTable
+        columns={columns}
+        getPageOfData={fetchData}
+        primaryKeyName="ticker_year"
+      />
+    );
   }
-  return (
-    <DataTable
-      columns={columns}
-      getPageOfData={fetchData}
-      primaryKeyName="ticker_year"
-    />
-  );
 }
 
 // TODO move to separate file
