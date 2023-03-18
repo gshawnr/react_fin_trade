@@ -1,5 +1,5 @@
 // import * as React from "react";
-import React, { useState } from "react";
+import React, { useState, useEffect, componentDidMount } from "react";
 import { alpha } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Table from "@mui/material/Table";
@@ -177,14 +177,35 @@ function EnhancedTableToolbar(props) {
   );
 }
 
-export default function EnhancedTable({ rows, columns }) {
+export default function EnhancedTable({ columns, getPageOfData }) {
   const [order, setOrder] = useState("asc");
-  const [orderBy, setOrderBy] = useState("calories");
+  const [orderBy, setOrderBy] = useState("ticker_year");
   const [selected, setSelected] = useState([]);
-  const [page, setPage] = useState(0);
+  const [pageNum, setPageNum] = useState(0);
   const [dense, setDense] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [tableColumns, setTableColumns] = useState(columns);
+  const [rows, setRows] = useState([]);
+  const [totalCount, setTotalCount] = useState(0);
+  const [pageRequested, setPageRequested] = useState({
+    refDocTickerYear: "0",
+    pageSize: rowsPerPage,
+    pageChange: "next",
+    sortField: "ticker_year",
+    sortDirection: "asc",
+  });
+
+  useEffect(() => {
+    try {
+      (async function () {
+        const { data = [], count } = await getPageOfData(pageRequested);
+        setRows(data);
+        setTotalCount(count);
+      })();
+    } catch (err) {
+      console.log("Error fetching summary data", err);
+    }
+  }, [pageRequested]);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -226,6 +247,7 @@ export default function EnhancedTable({ rows, columns }) {
       return setTableColumns(columns);
     }
 
+    // TODO Update to dynamic filter list
     const filterValues = [
       "netIncome",
       "revenue",
@@ -240,13 +262,18 @@ export default function EnhancedTable({ rows, columns }) {
     setTableColumns(filtered);
   };
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
+  const handleChangePage = async (event, newPage) => {
+    setPageNum(newPage);
+    // TODO handle decrease as well as increase
+    let refDocTickerYear = rows[rows.length - 1].ticker_year;
+    setPageRequested({ ...pageRequested, refDocTickerYear });
   };
 
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+  const handleChangeRowsPerPage = async (event) => {
+    const size = parseInt(event.target.value, 10);
+    setPageNum(0);
+    setRowsPerPage(size);
+    setPageRequested({ ...pageRequested, pageSize: size });
   };
 
   const handleChangeDense = (event) => {
@@ -256,8 +283,8 @@ export default function EnhancedTable({ rows, columns }) {
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
   // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+  const emptyRows = 0;
+  // pageNum > 0 ? Math.max(0, (1 + pageNum) * rows.length - rows.length) : 0;
 
   return (
     <Box className="" sx={{ width: "100%" }}>
@@ -278,12 +305,15 @@ export default function EnhancedTable({ rows, columns }) {
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={rows.length}
+              rowCount={rows.length} // used to determine all rows are checked - page only.
               columns={tableColumns}
             />
             <TableBody>
               {stableSort(rows, getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                // .slice(
+                //   pageNum * rows.length,
+                //   pageNum * rows.length + rows.length
+                // ) // FIXME remove ln
                 .map((row, index) => {
                   const isItemSelected = isSelected(row.ticker_year);
                   const labelId = `enhanced-table-checkbox-${index}`;
@@ -335,9 +365,10 @@ export default function EnhancedTable({ rows, columns }) {
           className="tableFooter"
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={rows.length}
+          count={totalCount}
+          // count="3"
           rowsPerPage={rowsPerPage}
-          page={page}
+          page={pageNum}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />

@@ -6,26 +6,42 @@ import beApi from "../api/beApi";
 
 function Summary() {
   const { state: authState } = useContext(AuthContext);
-  const [rowData, setRowData] = useState([]);
+  // const [rowData, setRowData] = useState([]);
+  // const [totalCount, setTotalCount] = useState(0);
+  // const [pageRequested, setPageRequested] = useState({
+  //   refDocTickerYear: "0",
+  //   pageSize: 10,
+  //   pageChange: "next",
+  //   sortField: "ticker_year",
+  //   sortDirection: "asc",
+  // });
 
-  useEffect(() => {
+  const fetchData = async (params) => {
     try {
-      (async function () {
-        const response = await beApi.get("/summary");
-        if (response?.data) {
-          setRowData(response.data);
-        }
-      })();
+      const {
+        refDocTickerYear,
+        pageSize,
+        pageChange,
+        sortDirection,
+        sortField,
+      } = params;
+      //TODO fix url string
+      const response = await beApi.get(
+        `/summary?refDocTickerYear=${refDocTickerYear}&pageSize=${pageSize}&pageChange=${pageChange}&sortField=${sortField}&sortDirection=${sortDirection}`
+      );
+      if (response?.data) {
+        const { data = [], count } = response.data;
+        return { data, count };
+      }
     } catch (err) {
       console.log("Error fetching summary data", err);
     }
-  }, []);
+  };
 
   if (!authState.isSignedIn) {
     return <h1>Please sign In</h1>;
   }
-  // return <div>Summary</div>;
-  return <DataTable rows={rowData} columns={columns} />;
+  return <DataTable columns={columns} getPageOfData={fetchData} />;
 }
 
 // TODO move to separate file
