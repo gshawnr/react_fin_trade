@@ -1,12 +1,12 @@
-import React, { useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { Context as AuthContext } from "../context/authContext";
 import DataTable from "../components/Table";
-import { summaryTableColumns } from "../data/tableCols";
+import { metricTableColumns } from "../data/tableCols";
 import beApi from "../api/beApi";
 
-function Summary() {
+function Metric() {
   const { state: authState } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -35,21 +35,35 @@ function Summary() {
           sortDirection,
         },
       };
-      const response = await beApi.get(`/summary`, options);
+
+      const response = await beApi("/metrics", options);
 
       if (response?.data) {
         const { data = [], count } = response.data;
-        return { data, count };
+
+        // flatten nested data for presentation
+        const formattedData = data.map((obj) => {
+          let data = {
+            ...obj,
+            ...obj.performanceData,
+            ...obj.profitabilityData,
+            ...obj.stabilityData,
+            ...obj.valueData,
+          };
+          return data;
+        });
+
+        return { data: formattedData, count };
       }
     } catch (err) {
-      console.log("Error fetching summary data", err);
+      console.log("Error fetching metric data", err);
     }
   };
 
   if (authState.isSignedIn) {
     return (
       <DataTable
-        columns={summaryTableColumns}
+        columns={metricTableColumns}
         getPageOfData={fetchData}
         primaryKeyName="ticker_year"
         filterTerms={filterValues}
@@ -58,14 +72,12 @@ function Summary() {
   }
 }
 
-// TODO
 const filterValues = [
-  "netIncome",
-  "revenue",
-  "grossProfit",
   "ticker_year",
-  "eps",
-  "avgStockPrice",
+  "dcfValuePerShare",
+  "priceToEarnings",
+  "priceToSales",
+  "priceToBook",
 ];
 
-export default Summary;
+export default Metric;

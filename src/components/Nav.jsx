@@ -14,8 +14,10 @@ function Nav() {
 
   const links = [
     { name: "Home", path: "/" },
-    { name: "Login", path: "/login" },
+    { name: "Companies", path: "/company" },
     { name: "Summary", path: "/summary" },
+    { name: "Metrics", path: "/metric" },
+    { name: "Login", path: "/login" },
   ];
 
   const navExpand = (e) => {

@@ -181,6 +181,7 @@ export default function EnhancedTable({
   columns,
   getPageOfData,
   primaryKeyName,
+  filterTerms = [],
 }) {
   const INITIAL_PAGE_SIZE = 10;
   const [order, setOrder] = useState("asc");
@@ -249,22 +250,15 @@ export default function EnhancedTable({
     setSelected(newSelected);
   };
 
-  const handleFilter = (event, name) => {
+  const handleFilter = (event) => {
     // handle reset of filters
     if (tableColumns.length < columns.length) {
       return setTableColumns(columns);
     }
 
     // TODO Update to dynamic filter list
-    const filterValues = [
-      "netIncome",
-      "revenue",
-      "grossProfit",
-      "ticker_year",
-      "eps",
-    ];
     const filtered = tableColumns.filter((col) => {
-      return filterValues.includes(col.name);
+      return filterTerms.includes(col.name);
     });
 
     setTableColumns(filtered);
