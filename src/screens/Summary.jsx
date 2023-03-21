@@ -19,23 +19,29 @@ function Summary() {
   const fetchData = async (params) => {
     try {
       const {
-        primaryKeyValue,
-        pageSize,
         pageChangeDirection,
+        pageSize,
+        primaryKeyValue,
+        searchField,
+        searchTerm,
         sortDirection,
         sortField,
+        url,
       } = params;
 
       const options = {
         params: {
-          refDocTickerYear: primaryKeyValue,
-          pageSize,
           pageChangeDirection,
-          sortField,
+          pageSize,
+          refDocTickerYear: primaryKeyValue,
+          searchField,
+          searchTerm,
           sortDirection,
+          sortField,
+          url,
         },
       };
-      const response = await beApi.get(`/summary`, options);
+      const response = await beApi.get(url, options);
 
       if (response?.data) {
         const { data = [], count } = response.data;
@@ -48,12 +54,14 @@ function Summary() {
 
   if (authState.isSignedIn) {
     return (
-      <DataTable
-        columns={summaryTableColumns}
-        getPageOfData={fetchData}
-        primaryKeyName="ticker_year"
-        filterTerms={filterValues}
-      />
+      <div>
+        <DataTable
+          columns={summaryTableColumns}
+          getPageOfData={fetchData}
+          primaryKeyName="ticker_year"
+          filterTerms={filterValues}
+        />
+      </div>
     );
   }
 }
