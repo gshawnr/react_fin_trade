@@ -25,7 +25,6 @@ import { visuallyHidden } from "@mui/utils";
 import Search from "../components/Search";
 
 import "./Table.css";
-import { Block } from "@mui/icons-material";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -187,6 +186,7 @@ export default function EnhancedTable({
   getPageOfData,
   primaryKeyName,
   tableTitle = "",
+  refreshData = false,
 }) {
   const INITIAL_PAGE_SIZE = 10;
   const [order, setOrder] = useState("asc");
@@ -222,7 +222,7 @@ export default function EnhancedTable({
     } catch (err) {
       console.log("Error fetching summary data", err);
     }
-  }, [pageRequested]);
+  }, [pageRequested, refreshData]);
 
   const handleTermSearch = (term) => {
     if (term.length === 0) {

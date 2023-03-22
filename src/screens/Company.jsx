@@ -1,95 +1,91 @@
 import React, { useEffect, useContext, useState } from "react";
-import { TextField, Button, Container, FormControl } from "@mui/material";
-
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemAvatar from "@mui/material/ListItemAvatar";
-import ListItemText from "@mui/material/ListItemText";
-import Avatar from "@mui/material/Avatar";
-import IconButton from "@mui/material/IconButton";
-import FolderIcon from "@mui/icons-material/Folder";
-import DeleteIcon from "@mui/icons-material/Delete";
+import { FormControl, TextField, Button } from "@mui/material";
 
 import { Context as AuthContext } from "../context/authContext";
+import DataTable from "../components/Table";
+import { companyTableColumns } from "../data/tableCols";
 import beApi from "../api/beApi";
 
 function Company() {
-  const { isSignedIn } = useContext(AuthContext);
-  const [companies, setCompanies] = useState([]);
-  const [company, setCompany] = useState("");
+  const { state: authState } = useContext(AuthContext);
+  const [companyInput, setCompanyInput] = useState("");
+  const [refreshData, setRefreshData] = useState(false);
 
-  useEffect(() => {
+  const fetchData = async (params) => {
     try {
-      const getCompanies = async () => {
-        const response = await beApi("/companies");
-        if (response?.data) {
-          setCompanies(response.data);
-        }
+      const {
+        pageChangeDirection,
+        pageSize,
+        primaryKeyValue,
+        searchField,
+        searchTerm,
+        sortDirection,
+        sortField,
+        url,
+      } = params;
+
+      const options = {
+        params: {
+          pageChangeDirection,
+          pageSize,
+          refDocKeyValue: primaryKeyValue,
+          searchField,
+          searchTerm,
+          sortDirection,
+          sortField,
+        },
       };
-      getCompanies();
+      const response = await beApi.get(url, options);
+
+      if (response?.data) {
+        const { data = [], count } = response.data;
+
+        return { data, count };
+      }
     } catch (err) {
-      console.log("error fetching companies", err);
+      console.log("Error fetching summary data", err);
     }
-  }, [companies]);
+  };
 
   const addCompany = async () => {
     try {
-      await beApi.get(`/annual/${company}`);
-      setCompanies([...companies, company]);
-      setCompany("");
+      await beApi.get(`/annual/${companyInput}`);
+      setCompanyInput("");
+      setRefreshData(!refreshData);
     } catch (err) {
       console.log("unable to add company", err);
     }
   };
-
   return (
-    <div
-      style={{
-        width: "40%",
-        backgroundColor: "#fff",
-        margin: "auto",
-        padding: "5%",
-      }}
-    >
-      <List>
-        {companies.map((company) => {
-          return (
-            <ListItem
-              key={company}
-              secondaryAction={
-                <IconButton edge="end" aria-label="delete" onClick={addCompany}>
-                  <DeleteIcon />
-                </IconButton>
-              }
-            >
-              <ListItemAvatar>
-                <Avatar>
-                  <FolderIcon />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText primary={company.toUpperCase()} />
-            </ListItem>
-          );
-        })}
-      </List>
-      <FormControl fullWidth>
+    <div style={{ display: "flex", justifyContent: "space-around" }}>
+      <div style={{ width: "70%" }}>
+        <DataTable
+          baseUrl="/companies"
+          columns={companyTableColumns}
+          filterTerms={filterValues}
+          getPageOfData={fetchData}
+          primaryKeyName="ticker"
+          tableTitle="Company Directory"
+          refreshData={refreshData}
+        />
+      </div>
+      <FormControl sx={{ width: "15%" }}>
         <TextField
           label="Add Company"
           required
           margin="normal"
-          value={company}
-          onChange={(e) => setCompany(e.target.value)}
+          value={companyInput}
+          onChange={(e) => setCompanyInput(e.target.value)}
         />
-        <Button
-          variant="contained"
-          style={{ margin: "5% 0" }}
-          onClick={addCompany}
-        >
+        <Button variant="contained" onClick={addCompany}>
           Add Company
         </Button>
       </FormControl>
     </div>
   );
 }
+
+// TODO
+const filterValues = ["companyName"];
 
 export default Company;

@@ -38,3 +38,9 @@ export const metricTableColumns = [
   { name: "priceToSales", label: "Price To Sales", dataType: "number" },
   { name: "priceToBook", label: "Price To Book", dataType: "number" },
 ];
+
+export const companyTableColumns = [
+  { name: "companyName", label: "Company" },
+  { name: "ticker", label: "Symbol" },
+  { name: "exchange", label: "Exchange" },
+];

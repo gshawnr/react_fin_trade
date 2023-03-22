@@ -18,7 +18,6 @@ function Metric() {
 
   const fetchData = async (params) => {
     try {
-      console.log("metric.jsx params", params);
       const {
         pageChangeDirection,
         pageSize,
@@ -41,7 +40,6 @@ function Metric() {
           sortField,
         },
       };
-      console.log("response");
       const response = await beApi(url, options);
 
       if (response?.data) {
