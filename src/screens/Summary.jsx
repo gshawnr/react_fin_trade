@@ -55,11 +55,12 @@ function Summary() {
     return (
       <div>
         <DataTable
+          baseUrl="/summary"
           columns={summaryTableColumns}
+          filterTerms={filterValues}
           getPageOfData={fetchData}
           primaryKeyName="ticker_year"
-          filterTerms={filterValues}
-          baseUrl="/summary"
+          tableTitle="Financial Data Highlights"
         />
       </div>
     );

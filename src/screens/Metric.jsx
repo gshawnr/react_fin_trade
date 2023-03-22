@@ -69,11 +69,12 @@ function Metric() {
   if (authState.isSignedIn) {
     return (
       <DataTable
+        baseUrl="/metrics"
         columns={metricTableColumns}
+        filterTerms={filterValues}
         getPageOfData={fetchData}
         primaryKeyName="ticker_year"
-        filterTerms={filterValues}
-        baseUrl="/metrics"
+        tableTitle="Key Financial Metrics"
       />
     );
   }

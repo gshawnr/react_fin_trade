@@ -8,6 +8,8 @@ body {
   background-color: #dbe2ef;
   /* margin: 0 auto; */
   min-height: 100vh;
+  max-height: 90vh;
+  min-height: 90vh;
 }
 
 .MuiTextField-root {
@@ -16,7 +18,8 @@ body {
 
 .container {
   margin: 0 5% 2%;
-  min-height: 100vh;
+  max-height: 90vh;
+  min-height: 90vh;
 }
 
 a {

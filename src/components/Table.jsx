@@ -127,7 +127,7 @@ function EnhancedTableHead(props) {
 }
 
 function EnhancedTableToolbar(props) {
-  const { numSelected, handleFilter } = props;
+  const { numSelected, handleFilter, tableTitle } = props;
 
   return (
     <Toolbar
@@ -160,7 +160,7 @@ function EnhancedTableToolbar(props) {
           id="tableTitle"
           component="div"
         >
-          Overview
+          {tableTitle}
         </Typography>
       )}
       {numSelected > 0 ? (
@@ -181,11 +181,12 @@ function EnhancedTableToolbar(props) {
 }
 
 export default function EnhancedTable({
+  baseUrl,
   columns,
+  filterTerms = [],
   getPageOfData,
   primaryKeyName,
-  filterTerms = [],
-  baseUrl,
+  tableTitle = "",
 }) {
   const INITIAL_PAGE_SIZE = 10;
   const [order, setOrder] = useState("asc");
@@ -339,11 +340,12 @@ export default function EnhancedTable({
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
         <Search handleTermSearch={handleTermSearch} />
       </div>
-      <Box className="" sx={{ width: "100%" }}>
+      <Box className="">
         <Paper sx={{ width: "100%", mb: 2 }}>
           <EnhancedTableToolbar
             numSelected={selected.length}
             handleFilter={handleFilter}
+            tableTitle={tableTitle}
           />
           <TableContainer className="tableBody">
             <Table
@@ -359,6 +361,9 @@ export default function EnhancedTable({
                 onRequestSort={handleRequestSort}
                 rowCount={rows.length}
                 columns={tableColumns}
+                sx={{
+                  "& .MuiTableRow-root": { position: "sticky", top: "0px" },
+                }}
               />
               <TableBody>
                 {stableSort(rows, getComparator(order, orderBy)).map(
@@ -414,7 +419,7 @@ export default function EnhancedTable({
           </TableContainer>
           <TablePagination
             className="tableFooter"
-            rowsPerPageOptions={[5, 10, 25]}
+            rowsPerPageOptions={[5, 10]}
             component="div"
             count={totalCount}
             rowsPerPage={rowsPerPage}
