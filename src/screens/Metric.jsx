@@ -18,25 +18,31 @@ function Metric() {
 
   const fetchData = async (params) => {
     try {
+      console.log("metric.jsx params", params);
       const {
-        primaryKeyValue,
-        pageSize,
         pageChangeDirection,
+        pageSize,
+        primaryKeyValue,
+        searchField,
+        searchTerm,
         sortDirection,
         sortField,
+        url,
       } = params;
 
       const options = {
         params: {
-          refDocTickerYear: primaryKeyValue,
-          pageSize,
           pageChangeDirection,
-          sortField,
+          pageSize,
+          refDocTickerYear: primaryKeyValue,
+          searchField,
+          searchTerm,
           sortDirection,
+          sortField,
         },
       };
-
-      const response = await beApi("/metrics", options);
+      console.log("response");
+      const response = await beApi(url, options);
 
       if (response?.data) {
         const { data = [], count } = response.data;
@@ -67,6 +73,7 @@ function Metric() {
         getPageOfData={fetchData}
         primaryKeyName="ticker_year"
         filterTerms={filterValues}
+        baseUrl="/metrics"
       />
     );
   }

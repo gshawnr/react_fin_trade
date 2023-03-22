@@ -185,6 +185,7 @@ export default function EnhancedTable({
   getPageOfData,
   primaryKeyName,
   filterTerms = [],
+  baseUrl,
 }) {
   const INITIAL_PAGE_SIZE = 10;
   const [order, setOrder] = useState("asc");
@@ -206,7 +207,7 @@ export default function EnhancedTable({
     searchTerm: "",
     sortDirection: "asc",
     sortField: primaryKeyName,
-    url: "/summary",
+    url: baseUrl,
   };
   const [pageRequested, setPageRequested] = useState(defaultPageRequest);
 
@@ -233,7 +234,7 @@ export default function EnhancedTable({
         primaryKeyValue: "0",
         pageChangeDirection: "next",
         searchTerm: term,
-        url: "/summary/search",
+        url: `${baseUrl}/search`,
       };
       setPageRequested(searchPageRequested);
       setPageNum(0);

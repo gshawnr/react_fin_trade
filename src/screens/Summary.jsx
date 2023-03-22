@@ -38,7 +38,6 @@ function Summary() {
           searchTerm,
           sortDirection,
           sortField,
-          url,
         },
       };
       const response = await beApi.get(url, options);
@@ -60,6 +59,7 @@ function Summary() {
           getPageOfData={fetchData}
           primaryKeyName="ticker_year"
           filterTerms={filterValues}
+          baseUrl="/summary"
         />
       </div>
     );
