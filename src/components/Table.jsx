@@ -24,6 +24,7 @@ import AddCompanyModal from "./AddCompanyModal";
 import Search from "../components/Search";
 
 import "./Table.css";
+import { green } from "@mui/material/colors";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
