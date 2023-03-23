@@ -1,6 +1,6 @@
 nav {
   padding: 1% 0;
-  justify-content: center;
+  justify-content: space-around;
 }
 
 .hamburger {
@@ -30,11 +30,11 @@ a:hover {
 
 @media (max-width: 700px) {
   nav {
-    /* display: none; */
+    display: none;
   }
 }
 
-@media (max-width: 700px) {
+@media (max-width: 960px) {
   nav {
     justify-content: start;
     margin: 5%;

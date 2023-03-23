@@ -1,5 +1,4 @@
-import React, { useEffect, useContext, useState } from "react";
-import { FormControl, TextField, Button } from "@mui/material";
+import React, { useContext } from "react";
 
 import { Context as AuthContext } from "../context/authContext";
 import DataTable from "../components/Table";
@@ -8,8 +7,6 @@ import beApi from "../api/beApi";
 
 function Company() {
   const { state: authState } = useContext(AuthContext);
-  const [companyInput, setCompanyInput] = useState("");
-  const [refreshData, setRefreshData] = useState(false);
 
   const fetchData = async (params) => {
     try {
@@ -47,15 +44,6 @@ function Company() {
     }
   };
 
-  const addCompany = async () => {
-    try {
-      await beApi.get(`/annual/${companyInput}`);
-      setCompanyInput("");
-      setRefreshData(!refreshData);
-    } catch (err) {
-      console.log("unable to add company", err);
-    }
-  };
   return (
     <div style={{ display: "flex", justifyContent: "space-around" }}>
       <div style={{ width: "70%" }}>
@@ -66,21 +54,9 @@ function Company() {
           getPageOfData={fetchData}
           primaryKeyName="ticker"
           tableTitle="Company Directory"
-          refreshData={refreshData}
+          displayAddBtn
         />
       </div>
-      <FormControl sx={{ width: "15%" }}>
-        <TextField
-          label="Add Company"
-          required
-          margin="normal"
-          value={companyInput}
-          onChange={(e) => setCompanyInput(e.target.value)}
-        />
-        <Button variant="contained" onClick={addCompany}>
-          Add Company
-        </Button>
-      </FormControl>
     </div>
   );
 }

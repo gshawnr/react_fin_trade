@@ -73,6 +73,7 @@ function Metric() {
         getPageOfData={fetchData}
         primaryKeyName="ticker_year"
         tableTitle="Key Financial Metrics"
+        displayAddBtn={false}
       />
     );
   }

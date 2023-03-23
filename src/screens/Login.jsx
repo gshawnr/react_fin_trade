@@ -12,34 +12,38 @@ const Login = () => {
   const [password, setPassword] = useState("");
 
   return (
-    <div className="loginScreen">
-      <FormControl fullWidth>
-        <TextField
-          label="Email"
-          required
-          background="red"
-          margin="normal"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          error={authState.errorMessage ? true : false}
-        />
-        <TextField
-          label="Password"
-          required
-          value={password}
-          margin="normal"
-          onChange={(e) => setPassword(e.target.value)}
-          type="password"
-          error={authState.errorMessage ? true : false}
-        />
-        <Button
-          variant="contained"
-          style={{ margin: "5% 0" }}
-          onClick={() => login({ email, password })}
-        >
-          Login
-        </Button>
-      </FormControl>
+    <div className="loginForm">
+      <h1 style={{}}>Please sign in</h1>
+      <div className="loginFormControl">
+        <FormControl fullWidth margin="normal">
+          <TextField
+            label="Email"
+            required
+            margin="normal"
+            variant="standard"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            error={authState.errorMessage ? true : false}
+          />
+          <TextField
+            label="Password"
+            required
+            margin="normal"
+            variant="standard"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            type="password"
+            error={authState.errorMessage ? true : false}
+          />
+          <Button
+            variant="contained"
+            style={{ margin: "5% 0" }}
+            onClick={() => login({ email, password })}
+          >
+            Login
+          </Button>
+        </FormControl>
+      </div>
     </div>
   );
 };

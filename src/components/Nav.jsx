@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { Button } from "@mui/material";
 import { useLocation, Link } from "react-router-dom";
+
 import "./Nav.css";
 
 function Nav() {
   const [activePath, setActivePath] = useState("");
   const [navlinksClass, setNavlinksClass] = useState("navlinks");
   let location = useLocation();
+  let navigate = useNavigate();
 
   useEffect(() => {
     const { pathname = null } = location;
@@ -17,7 +21,6 @@ function Nav() {
     { name: "Companies", path: "/company" },
     { name: "Summary", path: "/summary" },
     { name: "Metrics", path: "/metric" },
-    { name: "Login", path: "/login" },
   ];
 
   const navExpand = (e) => {
@@ -37,6 +40,7 @@ function Nav() {
         <div className={navlinksClass}>
           {links.map((thisLink) => (
             <Link
+              variant="contained"
               key={thisLink.name}
               className={activePath === thisLink.path ? "active-link" : ""}
               to={thisLink.path}
@@ -45,6 +49,11 @@ function Nav() {
             </Link>
           ))}
         </div>
+      </div>
+      <div style={{ position: "absolute", right: "10%" }}>
+        <Button variant="contained" onClick={(e) => navigate("/login")}>
+          Login
+        </Button>
       </div>
     </nav>
   );

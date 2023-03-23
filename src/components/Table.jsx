@@ -1,4 +1,3 @@
-// import * as React from "react";
 import React, { useState, useEffect } from "react";
 import { alpha } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -13,7 +12,6 @@ import TableSortLabel from "@mui/material/TableSortLabel";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
-import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -22,6 +20,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
 
+import AddCompanyModal from "./AddCompanyModal";
 import Search from "../components/Search";
 
 import "./Table.css";
@@ -88,23 +87,18 @@ function EnhancedTableHead(props) {
   return (
     <TableHead>
       <TableRow>
-        <TableCell padding="checkbox">
-          <Checkbox
-            color="primary"
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={rowCount > 0 && numSelected === rowCount}
-            onChange={onSelectAllClick}
-            inputProps={{
-              "aria-label": "select all desserts",
-            }}
-          />
-        </TableCell>
         {formattedColumns.map((headCell) => (
           <TableCell
             key={headCell.id}
             align="center"
             padding={headCell.disablePadding ? "none" : "normal"}
             sortDirection={orderBy === headCell.id ? order : false}
+            sx={{
+              fontSize: 18,
+              backgroundColor: "#2C74B3",
+              color: "#EEE",
+              fontWeight: "bold",
+            }}
           >
             <TableSortLabel
               active={orderBy === headCell.id}
@@ -186,7 +180,7 @@ export default function EnhancedTable({
   getPageOfData,
   primaryKeyName,
   tableTitle = "",
-  refreshData = false,
+  displayAddBtn = false,
 }) {
   const INITIAL_PAGE_SIZE = 10;
   const [order, setOrder] = useState("asc");
@@ -198,6 +192,7 @@ export default function EnhancedTable({
   const [tableColumns, setTableColumns] = useState(columns);
   const [rows, setRows] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
+  const [refreshData, setRefreshData] = useState(false);
 
   // pageRequested object is used to fetch backend data - matches backend pagination;
   const defaultPageRequest = {
@@ -218,6 +213,7 @@ export default function EnhancedTable({
         const { data = [], count } = await getPageOfData(pageRequested);
         setRows(data);
         setTotalCount(count);
+        setRefreshData(false);
       })();
     } catch (err) {
       console.log("Error fetching summary data", err);
@@ -338,6 +334,10 @@ export default function EnhancedTable({
   return (
     <div>
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
+        <AddCompanyModal
+          displayModal={displayAddBtn}
+          setRefreshData={setRefreshData}
+        />
         <Search handleTermSearch={handleTermSearch} />
       </div>
       <Box className="">
@@ -357,13 +357,11 @@ export default function EnhancedTable({
                 numSelected={selected.length}
                 order={order}
                 orderBy={orderBy}
-                onSelectAllClick={handleSelectAllClick}
+                // onSelectAllClick={handleSelectAllClick}
                 onRequestSort={handleRequestSort}
                 rowCount={rows.length}
                 columns={tableColumns}
-                sx={{
-                  "& .MuiTableRow-root": { position: "sticky", top: "0px" },
-                }}
+                sx={{}}
               />
               <TableBody>
                 {stableSort(rows, getComparator(order, orderBy)).map(
@@ -383,15 +381,6 @@ export default function EnhancedTable({
                         key={row[primaryKeyName]}
                         selected={isItemSelected}
                       >
-                        <TableCell padding="checkbox">
-                          <Checkbox
-                            color="primary"
-                            checked={isItemSelected}
-                            inputProps={{
-                              "aria-labelledby": labelId,
-                            }}
-                          />
-                        </TableCell>
                         {tableColumns.map((item, index) => {
                           return (
                             <TableCell key={index} align="center">
