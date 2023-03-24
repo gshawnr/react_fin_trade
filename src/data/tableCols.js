@@ -32,11 +32,12 @@ export const metricTableColumns = [
   { name: "debtToEquity", label: "Debt To Equity", dataType: "number" },
   { name: "debtToEbitda", label: "Debt To EBITDA", dataType: "number" },
   { name: "currentRatio", label: "Current Ratio", dataType: "number" },
+  { name: "avgStockPrice", label: "Share Price", dataType: "number" },
   { name: "dcfValuePerShare", label: "DCF Value", dataType: "number" },
   { name: "priceToEarnings", label: "PE", dataType: "number" },
-  { name: "earningsYield", label: "Earning Yield", dataType: "number" },
-  { name: "priceToSales", label: "Price To Sales", dataType: "number" },
-  { name: "priceToBook", label: "Price To Book", dataType: "number" },
+  { name: "earningsYield", label: "EY", dataType: "number" },
+  { name: "priceToSales", label: "Price / Sales", dataType: "number" },
+  { name: "priceToBook", label: "Price / Book", dataType: "number" },
 ];
 
 export const companyTableColumns = [

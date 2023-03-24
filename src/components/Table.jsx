@@ -362,7 +362,6 @@ export default function EnhancedTable({
                 onRequestSort={handleRequestSort}
                 rowCount={rows.length}
                 columns={tableColumns}
-                sx={{}}
               />
               <TableBody>
                 {stableSort(rows, getComparator(order, orderBy)).map(
@@ -409,7 +408,7 @@ export default function EnhancedTable({
           </TableContainer>
           <TablePagination
             className="tableFooter"
-            rowsPerPageOptions={[5, 10]}
+            rowsPerPageOptions={[5, 10, 25]}
             component="div"
             count={totalCount}
             rowsPerPage={rowsPerPage}
