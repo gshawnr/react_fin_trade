@@ -8,6 +8,8 @@ import "./Nav.css";
 function Nav() {
   const [activePath, setActivePath] = useState("");
   const [navlinksClass, setNavlinksClass] = useState("navlinks");
+  const [investingLinksClass, setInvestingLinksClass] = useState("sublinks");
+
   let location = useLocation();
   let navigate = useNavigate();
 
@@ -18,36 +20,91 @@ function Nav() {
 
   const links = [
     { name: "Home", path: "/" },
-    { name: "Companies", path: "/company" },
-    { name: "Summary", path: "/summary" },
-    { name: "Metrics", path: "/metric" },
+    {
+      name: "Investing",
+      path: "/investing",
+      className: "investing-dropdown",
+      sublinks: [
+        { name: "Companies", path: "/investing/company" },
+        { name: "Summaries", path: "/investing/summary" },
+        { name: "Metrics", path: "/investing/metric" },
+      ],
+    },
   ];
 
-  const navExpand = (e) => {
+  const navExpand = (e, linkName) => {
     e.preventDefault();
-    setNavlinksClass((prev) => {
-      if (prev === "navlinks") return "navlinks navlinks-expand";
-      else return "navlinks";
-    });
+    if (linkName === "Investing") {
+      setInvestingLinksClass((prev) => {
+        if (prev === "sublinks") return "sublinks sublinks-expand";
+        else return "sublinks";
+      });
+    } else
+      setNavlinksClass((prev) => {
+        if (prev === "navlinks") return "navlinks navlinks-expand";
+        else return "navlinks";
+      });
   };
 
   return (
     <nav>
       <div className="navbar">
-        <a href="#" className="hamburger" onClick={navExpand}>
+        <a href="#" className="hamburger" onClick={(e) => navExpand(e)}>
           <i className="fa fa-bars" aria-hidden="true"></i>
         </a>
         <div className={navlinksClass}>
-          {links.map((thisLink) => (
+          <div>
             <Link
               variant="contained"
-              key={thisLink.name}
-              className={activePath === thisLink.path ? "active-link" : ""}
-              to={thisLink.path}
+              key="/"
+              className={activePath === "/" ? "active-link" : ""}
+              to="/"
             >
-              {thisLink.name}
+              Home
             </Link>
-          ))}
+          </div>
+          <div className="investing">
+            <Link
+              variant="contained"
+              key="/investing"
+              className={activePath === "/investing" ? "active-link" : ""}
+              to="/investing"
+            >
+              Investing
+            </Link>
+            <div className="sublinks investing-sublinks">
+              <Link
+                variant="contained"
+                key="/investing/company"
+                className={
+                  activePath === "/investing/company" ? "active-link" : ""
+                }
+                to="/investing/company"
+              >
+                Companies
+              </Link>
+              <Link
+                variant="contained"
+                key="/investing/summary"
+                className={
+                  activePath === "/investing/summary" ? "active-link" : ""
+                }
+                to="/investing/summary"
+              >
+                Summaries
+              </Link>
+              <Link
+                variant="contained"
+                key="/investing/metric"
+                className={
+                  activePath === "/investing/metric" ? "active-link" : ""
+                }
+                to="/investing/metric"
+              >
+                Metrics
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
       <div style={{ position: "absolute", right: "10%" }}>

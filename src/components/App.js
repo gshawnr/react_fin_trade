@@ -11,6 +11,7 @@ import { navigationHelper } from "../utils/navigationHelper";
 
 import Home from "../screens/Home";
 import Login from "../screens/Login";
+import Investing from "../screens/Investing";
 import Summary from "../screens/Summary";
 import Metric from "../screens/Metric";
 import Company from "../screens/Company";
@@ -18,14 +19,15 @@ import Company from "../screens/Company";
 function App() {
   const { state: authState } = useContext(AuthContext);
   navigationHelper.navigate = useNavigate();
-  navigationHelper.locaction = useLocation();
+  navigationHelper.location = useLocation();
 
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/company" element={<Company />} />
-      <Route path="/summary" element={<Summary />} />
-      <Route path="/metric" element={<Metric />} />
+      <Route path="/investing" element={<Investing />} />
+      <Route path="/investing/summary" element={<Summary />} />
+      <Route path="/investing/metric" element={<Metric />} />
+      <Route path="/investing/company" element={<Company />} />
       <Route path="/login" element={<Login />} />
     </Routes>
   );

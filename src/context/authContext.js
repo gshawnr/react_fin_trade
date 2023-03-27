@@ -38,7 +38,7 @@ const login = (dispatch) => {
       const response = await beApi.post("/signin", { email, password });
       if (response?.data?.token) {
         dispatch({ type: "login", payload: { token: response.data.token } });
-        navigationHelper.navigate("/summary");
+        navigationHelper.navigate("/");
       } else {
         dispatch({
           type: "setErrorMessage",

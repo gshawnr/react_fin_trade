@@ -1,4 +1,5 @@
-import React, { useContext } from "react";
+import React, { useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { Context as AuthContext } from "../context/authContext";
 import DataTable from "../components/Table";
@@ -7,6 +8,13 @@ import beApi from "../api/beApi";
 
 function Company() {
   const { state: authState } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!authState.isSignedIn) {
+      navigate("/login");
+    }
+  });
 
   const fetchData = async (params) => {
     try {
@@ -44,21 +52,23 @@ function Company() {
     }
   };
 
-  return (
-    <div style={{ display: "flex", justifyContent: "space-around" }}>
-      <div style={{ width: "70%" }}>
-        <DataTable
-          baseUrl="/companies"
-          columns={companyTableColumns}
-          filterTerms={filterValues}
-          getPageOfData={fetchData}
-          primaryKeyName="ticker"
-          tableTitle="Company Directory"
-          displayAddBtn
-        />
+  if (authState.isSignedIn) {
+    return (
+      <div style={{ display: "flex", justifyContent: "space-around" }}>
+        <div style={{ width: "70%" }}>
+          <DataTable
+            baseUrl="/companies"
+            columns={companyTableColumns}
+            filterTerms={filterValues}
+            getPageOfData={fetchData}
+            primaryKeyName="ticker"
+            tableTitle="Company Directory"
+            displayAddBtn
+          />
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
 
 // TODO
