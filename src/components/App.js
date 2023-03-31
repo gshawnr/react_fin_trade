@@ -9,12 +9,13 @@ import {
 
 import { navigationHelper } from "../utils/navigationHelper";
 
-import Home from "../screens/Home";
-import Login from "../screens/Login";
-import Investing from "../screens/Investing";
-import Summary from "../screens/Summary";
-import Metric from "../screens/Metric";
+import About from "../screens/About";
 import Company from "../screens/Company";
+import Home from "../screens/Home";
+import Investing from "../screens/Investing";
+import Login from "../screens/Login";
+import Metric from "../screens/Metric";
+import Summary from "../screens/Summary";
 
 function App() {
   const { state: authState } = useContext(AuthContext);
@@ -24,6 +25,7 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
+      <Route path="/about" element={<About />} />
       <Route path="/investing" element={<Investing />} />
       <Route path="/investing/summary" element={<Summary />} />
       <Route path="/investing/metric" element={<Metric />} />

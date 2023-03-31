@@ -188,7 +188,7 @@ export default function EnhancedTable({
   const [orderBy, setOrderBy] = useState(primaryKeyName);
   const [selected, setSelected] = useState([]);
   const [pageNum, setPageNum] = useState(0);
-  const [dense, setDense] = useState(false);
+  const [dense, setDense] = useState(true);
   const [rowsPerPage, setRowsPerPage] = useState(INITIAL_PAGE_SIZE);
   const [tableColumns, setTableColumns] = useState(columns);
   const [rows, setRows] = useState([]);
@@ -384,7 +384,7 @@ export default function EnhancedTable({
                         {tableColumns.map((item, index) => {
                           return (
                             <TableCell key={index} align="center">
-                              {item.dataType === "number"
+                              {row[item.name] && item.dataType === "number"
                                 ? row[item.name].toLocaleString("en-US")
                                 : row[item.name]}
                             </TableCell>

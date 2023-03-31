@@ -1,118 +1,108 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { Button } from "@mui/material";
-import { useLocation, Link } from "react-router-dom";
+import React, { useState } from "react";
+import { useLocation, Link, useNavigate } from "react-router-dom";
+import {
+  AppBar,
+  Box,
+  Button,
+  Grid,
+  Tab,
+  Tabs,
+  Toolbar,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
+import AnalyticsIcon from "@mui/icons-material/Analytics";
 
-import "./Nav.css";
+import Drawer from "./Drawer";
+import { height } from "@mui/system";
+
+const links = [
+  { name: "Home", path: "/" },
+  { name: "Company", path: "/investing/company" },
+  { name: "Summary", path: "/investing/summary" },
+  { name: "Metrics", path: "/investing/metric" },
+  { name: "About", path: "/about" },
+];
 
 function Nav() {
-  const [activePath, setActivePath] = useState("");
-  const [navlinksClass, setNavlinksClass] = useState("navlinks");
-  const [investingLinksClass, setInvestingLinksClass] = useState("sublinks");
+  const navigate = useNavigate();
+  const [value, setValue] = useState(0);
+  const theme = useTheme();
+  const isMatch = useMediaQuery(theme.breakpoints.down("md"));
 
-  let location = useLocation();
-  let navigate = useNavigate();
-
-  useEffect(() => {
-    const { pathname = null } = location;
-    setActivePath(pathname);
-  }, [location]);
-
-  const links = [
-    { name: "Home", path: "/" },
-    {
-      name: "Investing",
-      path: "/investing",
-      className: "investing-dropdown",
-      sublinks: [
-        { name: "Companies", path: "/investing/company" },
-        { name: "Summaries", path: "/investing/summary" },
-        { name: "Metrics", path: "/investing/metric" },
-      ],
-    },
-  ];
-
-  const navExpand = (e, linkName) => {
-    e.preventDefault();
-    if (linkName === "Investing") {
-      setInvestingLinksClass((prev) => {
-        if (prev === "sublinks") return "sublinks sublinks-expand";
-        else return "sublinks";
-      });
-    } else
-      setNavlinksClass((prev) => {
-        if (prev === "navlinks") return "navlinks navlinks-expand";
-        else return "navlinks";
-      });
+  const handleTabChange = (link) => {
+    navigate(link.path);
   };
 
   return (
-    <nav>
-      <div className="navbar">
-        <a href="#" className="hamburger" onClick={(e) => navExpand(e)}>
-          <i className="fa fa-bars" aria-hidden="true"></i>
-        </a>
-        <div className={navlinksClass}>
-          <div>
-            <Link
-              variant="contained"
-              key="/"
-              className={activePath === "/" ? "active-link" : ""}
-              to="/"
-            >
-              Home
-            </Link>
-          </div>
-          <div className="investing">
-            <Link
-              variant="contained"
-              key="/investing"
-              className={activePath === "/investing" ? "active-link" : ""}
-              to="/investing"
-            >
-              Investing
-            </Link>
-            <div className="sublinks investing-sublinks">
-              <Link
-                variant="contained"
-                key="/investing/company"
-                className={
-                  activePath === "/investing/company" ? "active-link" : ""
-                }
-                to="/investing/company"
-              >
-                Companies
-              </Link>
-              <Link
-                variant="contained"
-                key="/investing/summary"
-                className={
-                  activePath === "/investing/summary" ? "active-link" : ""
-                }
-                to="/investing/summary"
-              >
-                Summaries
-              </Link>
-              <Link
-                variant="contained"
-                key="/investing/metric"
-                className={
-                  activePath === "/investing/metric" ? "active-link" : ""
-                }
-                to="/investing/metric"
-              >
-                Metrics
-              </Link>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div style={{ position: "absolute", right: "10%" }}>
-        <Button variant="contained" onClick={(e) => navigate("/login")}>
-          Login
-        </Button>
-      </div>
-    </nav>
+    <div
+      style={
+        isMatch
+          ? { marginBottom: "15%" }
+          : { marginBottom: "0%", height: "15px" }
+      }
+    >
+      <AppBar
+        sx={{
+          backgroundImage:
+            "linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(66,99,196,1) 35%, rgba(0,212,255,1) 100%)",
+        }}
+      >
+        <Toolbar>
+          {isMatch ? (
+            <>
+              <Typography>
+                <AnalyticsIcon sx={{ fontSize: 45 }} />
+              </Typography>
+              <Drawer links={[...links, { name: "Login", path: "/login" }]} />
+            </>
+          ) : (
+            <Grid container spacing={1} sx={{ placeItems: "center" }}>
+              <Grid item xs={2}>
+                <Typography>
+                  <AnalyticsIcon sx={{ fontSize: 45 }} />
+                </Typography>
+              </Grid>
+              <Grid item xs={6}>
+                <Tabs
+                  centered
+                  textColor="inherit"
+                  indicatorColor="primary"
+                  value={value}
+                  onChange={(e, value) => setValue(value)}
+                >
+                  {links.map((link) => {
+                    return (
+                      <Tab
+                        key={link.name}
+                        label={link.name}
+                        onClick={() => handleTabChange(link)}
+                      />
+                    );
+                  })}
+                </Tabs>
+              </Grid>
+              <Grid item xs={1} />
+              <Grid item xs={3}>
+                <Box sx={{ display: "flex" }}>
+                  <Button
+                    variant="contained"
+                    sx={{ marginLeft: "auto", background: "rgba(2,0,36,1)" }}
+                    onClick={() => navigate("/login")}
+                  >
+                    Login
+                  </Button>
+                  <Button variant="contained" sx={{ marginLeft: 1 }}>
+                    Signup
+                  </Button>
+                </Box>
+              </Grid>
+            </Grid>
+          )}
+        </Toolbar>
+      </AppBar>
+    </div>
   );
 }
 
