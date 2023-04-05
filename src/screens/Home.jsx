@@ -6,7 +6,7 @@ import "./Home.css";
 
 const Home = () => {
   const { state: authState } = useContext(AuthContext);
-  return <h1>Home</h1>;
+  return <div className="home-container" />;
 };
 
 export default Home;

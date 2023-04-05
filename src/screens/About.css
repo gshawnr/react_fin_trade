@@ -1,0 +1,16 @@
+.about-container {
+  background: linear-gradient(to bottom right, #0074d9, #7fdbff);
+  color: white;
+  padding: 8% 20% 15%;
+}
+
+.about-container h1 {
+  font-size: 36px;
+  margin-bottom: 20px;
+}
+
+.about-container p {
+  font-size: 18px;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}

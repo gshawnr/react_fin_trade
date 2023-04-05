@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useLocation, Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   AppBar,
   Box,
@@ -15,7 +15,6 @@ import {
 import AnalyticsIcon from "@mui/icons-material/Analytics";
 
 import Drawer from "./Drawer";
-import { height } from "@mui/system";
 
 const links = [
   { name: "Home", path: "/" },

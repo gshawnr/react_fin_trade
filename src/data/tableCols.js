@@ -42,6 +42,7 @@ export const metricTableColumns = [
 
 export const companyTableColumns = [
   { name: "companyName", label: "Company" },
+  // { name: "industry", label: "Industry" }, // TODO
   { name: "ticker", label: "Symbol" },
   { name: "exchange", label: "Exchange" },
 ];
