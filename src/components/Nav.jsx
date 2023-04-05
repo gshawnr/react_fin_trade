@@ -28,7 +28,7 @@ function Nav() {
   const navigate = useNavigate();
   const [value, setValue] = useState(0);
   const theme = useTheme();
-  const isMatch = useMediaQuery(theme.breakpoints.down("md"));
+  const isMatch = useMediaQuery(theme.breakpoints.down("lg"));
 
   const handleTabChange = (link) => {
     navigate(link.path);
@@ -77,6 +77,7 @@ function Nav() {
                         key={link.name}
                         label={link.name}
                         onClick={() => handleTabChange(link)}
+                        sx={{ fontSize: "1em" }}
                       />
                     );
                   })}

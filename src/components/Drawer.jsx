@@ -27,6 +27,7 @@ function Drawer({ links }) {
                 key={link.name}
                 divider
                 onClick={() => setOpen(false)}
+                sx={{ "&:hover": { backgroundColor: "rgb(0,212,255)" } }}
               >
                 <ListItemIcon onClick={() => navigate(link.path)}>
                   <ListItemText sx={{ color: "white" }}>
