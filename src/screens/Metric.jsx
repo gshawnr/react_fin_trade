@@ -19,6 +19,8 @@ function Metric() {
   const fetchData = async (params) => {
     try {
       const {
+        filterField,
+        filterValue,
         pageChangeDirection,
         pageSize,
         primaryKeyValue,
@@ -31,6 +33,8 @@ function Metric() {
 
       const options = {
         params: {
+          filterField,
+          filterValue,
           pageChangeDirection,
           pageSize,
           refDocTickerYear: primaryKeyValue,

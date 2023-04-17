@@ -197,6 +197,8 @@ export default function EnhancedTable({
 
   // pageRequested object is used to fetch backend data - matches backend pagination;
   const defaultPageRequest = {
+    filterField: "",
+    filterValue: "",
     pageChangeDirection: "next",
     pageSize: INITIAL_PAGE_SIZE,
     primaryKeyValue: "0",
@@ -275,6 +277,7 @@ export default function EnhancedTable({
   };
 
   const handleFilter = (event) => {
+    // toggle a dropdown
     // handle reset of filters
     if (tableColumns.length < columns.length) {
       return setTableColumns(columns);
