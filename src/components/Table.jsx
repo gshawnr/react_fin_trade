@@ -214,6 +214,7 @@ export default function EnhancedTable({
     try {
       (async function () {
         const { data = [], count } = await getPageOfData(pageRequested);
+        console.log("table data", data);
         setRows(data);
         setTotalCount(count);
         setRefreshData(false);

@@ -1,6 +1,6 @@
-import "./App.css";
 import React, { useContext } from "react";
-import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import "./App.css";
 
 import {
   Context as AuthContext,
@@ -16,6 +16,7 @@ import Investing from "../screens/Investing";
 import Login from "../screens/Login";
 import Metric from "../screens/Metric";
 import Summary from "../screens/Summary";
+import Watch from "../screens/Watch";
 
 function App() {
   const { state: authState } = useContext(AuthContext);
@@ -27,9 +28,10 @@ function App() {
       <Route path="/" element={<Home />} />
       <Route path="/about" element={<About />} />
       <Route path="/investing" element={<Investing />} />
-      <Route path="/investing/summary" element={<Summary />} />
-      <Route path="/investing/metric" element={<Metric />} />
       <Route path="/investing/company" element={<Company />} />
+      <Route path="/investing/metric" element={<Metric />} />
+      <Route path="/investing/summary" element={<Summary />} />
+      <Route path="/investing/watch" element={<Watch />} />
       <Route path="/login" element={<Login />} />
     </Routes>
   );

@@ -42,7 +42,19 @@ export const metricTableColumns = [
 
 export const companyTableColumns = [
   { name: "companyName", label: "Company" },
+  { name: "exchange", label: "Exchange" },
   // { name: "industry", label: "Industry" }, // TODO
   { name: "ticker", label: "Symbol" },
+];
+
+export const watchTableColumns = [
+  { name: "ticker", label: "Ticker" },
   { name: "exchange", label: "Exchange" },
+  { name: "currentPrice", label: "Current Price" },
+  { name: "targetPrice", label: "Target Price" },
+  { name: "dcfValue", label: "DCF" },
+  { name: "currency", label: "Currency" },
+
+  { name: "industry", label: "Industry" },
+  { name: "lastFiscalYear", label: "Fiscal Year" },
 ];
