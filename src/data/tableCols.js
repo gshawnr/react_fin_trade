@@ -34,6 +34,7 @@ export const metricTableColumns = [
   { name: "currentRatio", label: "Current Ratio", dataType: "number" },
   { name: "avgStockPrice", label: "Share Price", dataType: "number" },
   { name: "dcfValuePerShare", label: "DCF Value", dataType: "number" },
+  { name: "dcfToAvgPrice", label: "DCF to Price", dataType: "number" },
   { name: "priceToEarnings", label: "PE", dataType: "number" },
   { name: "earningsYield", label: "EY", dataType: "number" },
   { name: "priceToSales", label: "Price / Sales", dataType: "number" },
