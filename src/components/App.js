@@ -17,6 +17,7 @@ import Login from "../screens/Login";
 import Metric from "../screens/Metric";
 import Summary from "../screens/Summary";
 import Watch from "../screens/Watch";
+import Search from "../screens/Search";
 
 function App() {
   const { state: authState } = useContext(AuthContext);
@@ -31,6 +32,7 @@ function App() {
       <Route path="/investing/company" element={<Company />} />
       <Route path="/investing/metric" element={<Metric />} />
       <Route path="/investing/summary" element={<Summary />} />
+      <Route path="/investing/search" element={<Search />} />
       <Route path="/investing/watch" element={<Watch />} />
       <Route path="/login" element={<Login />} />
     </Routes>

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { TextField, InputAdornment } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 
-function Search({ handleTermSearch }) {
+function SearchBar({ handleTermSearch }) {
   const onTermChange = async (e) => {
     const value = e.target.value;
     setSearchText(value);
@@ -28,4 +28,4 @@ function Search({ handleTermSearch }) {
   );
 }
 
-export default Search;
+export default SearchBar;

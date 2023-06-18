@@ -21,6 +21,7 @@ const links = [
   { name: "Company", path: "/investing/company" },
   { name: "Summary", path: "/investing/summary" },
   { name: "Metrics", path: "/investing/metric" },
+  { name: "Search", path: "/investing/search" },
   { name: "Watch List", path: "/investing/watch" },
   { name: "About", path: "/about" },
 ];

@@ -1,0 +1,20 @@
+.search-btn-grp {
+  margin: 5% 0 2%;
+  padding-right: 20%;
+  text-align: right;
+}
+
+.search-container {
+  padding: 2% 10%;
+}
+
+.search-filter-ctrl {
+  min-height: 20vh;
+  padding: 0 10%;
+}
+
+.search-filter-grp {
+  display: flex;
+  /* justify-content: space-around; */
+  margin: 1%;
+}

@@ -21,7 +21,7 @@ import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
 
 import AddCompanyModal from "./AddCompanyModal";
-import Search from "../components/Search";
+import SearchBar from "../components/SearchBar";
 
 import "./Table.css";
 import { green } from "@mui/material/colors";
@@ -214,7 +214,6 @@ export default function EnhancedTable({
     try {
       (async function () {
         const { data = [], count } = await getPageOfData(pageRequested);
-        console.log("table data", data);
         setRows(data);
         setTotalCount(count);
         setRefreshData(false);
@@ -343,7 +342,7 @@ export default function EnhancedTable({
           displayModal={displayAddBtn}
           setRefreshData={setRefreshData}
         />
-        <Search handleTermSearch={handleTermSearch} />
+        <SearchBar handleTermSearch={handleTermSearch} />
       </div>
       <Box className="">
         <Paper sx={{ width: "100%", mb: 2 }}>
