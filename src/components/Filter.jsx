@@ -12,11 +12,11 @@ function Filter({ filterProps, setFilterProps, index }) {
   return (
     <div className="filter-container">
       <TextField
-        id="fieldValue"
+        id="filterTerm"
         label="Field"
         onChange={(e) => onFilterChange(e.target)}
         size="small"
-        value={filterProps.fieldValue}
+        value={filterProps.filterTerm}
         variant="outlined"
       />
       <TextField

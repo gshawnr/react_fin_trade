@@ -41,6 +41,15 @@ export const metricTableColumns = [
   { name: "priceToBook", label: "Price / Book", dataType: "number" },
 ];
 
+export const searchTableColumns = [
+  { name: "ticker_year", label: "Ticker / Year", dataType: "string" },
+  { name: "dcfToAvgPrice", label: "DCF to Price", dataType: "number" },
+  { name: "priceToEarnings", label: "PE", dataType: "number" },
+  { name: "earningsYield", label: "EY", dataType: "number" },
+  { name: "industry", label: "Industry", dataType: "string" },
+  { name: "sector", label: "Sector", dataType: "string" },
+];
+
 export const companyTableColumns = [
   { name: "companyName", label: "Company" },
   { name: "exchange", label: "Exchange" },

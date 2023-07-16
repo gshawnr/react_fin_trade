@@ -182,6 +182,7 @@ export default function EnhancedTable({
   primaryKeyName,
   tableTitle = "",
   displayAddBtn = false,
+  toggleDataRefetch = false,
 }) {
   const INITIAL_PAGE_SIZE = 10;
   const [order, setOrder] = useState("asc");
@@ -218,10 +219,11 @@ export default function EnhancedTable({
         setTotalCount(count);
         setRefreshData(false);
       })();
+      console.log("Table.jsx, toogleDatarefetch", toggleDataRefetch);
     } catch (err) {
       console.log("Error fetching summary data", err);
     }
-  }, [pageRequested, refreshData]);
+  }, [pageRequested, refreshData, toggleDataRefetch]);
 
   const handleTermSearch = (term) => {
     if (term.length === 0) {
@@ -411,7 +413,7 @@ export default function EnhancedTable({
           </TableContainer>
           <TablePagination
             className="tableFooter"
-            rowsPerPageOptions={[5, 10, 25]}
+            rowsPerPageOptions={[5, 10, 25, 100]}
             component="div"
             count={totalCount}
             rowsPerPage={rowsPerPage}
