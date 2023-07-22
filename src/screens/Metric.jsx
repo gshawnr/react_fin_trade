@@ -35,7 +35,7 @@ function Metric() {
           pageChangeDirection,
           pageSize,
           sortDirection,
-          orFilters,
+          orFilters: orFilters.map((thisFilter) => JSON.stringify(thisFilter)),
         },
       };
       const response = await beApi(url, options);
@@ -72,6 +72,7 @@ function Metric() {
         primaryKeyName="ticker_year"
         tableTitle="Key Financial Metrics"
         displayAddBtn={false}
+        searchFields={["ticker", "industry", "sector"]}
       />
     );
   }

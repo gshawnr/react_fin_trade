@@ -35,7 +35,7 @@ function Summary() {
           pageChangeDirection,
           pageSize,
           sortDirection,
-          orFilters,
+          orFilters: orFilters.map((thisFilter) => JSON.stringify(thisFilter)),
         },
       };
       const response = await beApi.get(url, options);
@@ -59,6 +59,7 @@ function Summary() {
           getPageOfData={fetchData}
           primaryKeyName="ticker_year"
           tableTitle="Financial Data Highlights"
+          searchFields={["ticker", "industry", "sector", "currency"]}
         />
       </div>
     );

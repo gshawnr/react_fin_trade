@@ -183,6 +183,7 @@ export default function EnhancedTable({
   tableTitle = "",
   displayAddBtn = false,
   toggleDataRefetch = false,
+  searchFields = [],
 }) {
   const INITIAL_PAGE_SIZE = 10;
   const [order, setOrder] = useState("asc");
@@ -204,6 +205,9 @@ export default function EnhancedTable({
     primaryKeyName,
     sortDirection: "asc",
     url: baseUrl,
+    andFilters: [],
+    orFilters: [],
+    searchFields: [],
   };
   const [pageRequested, setPageRequested] = useState(defaultPageRequest);
 
@@ -228,12 +232,21 @@ export default function EnhancedTable({
     } else {
       const searchPageRequested = {
         ...pageRequested,
-        primaryKeyValue: "0",
-        pageChangeDirection: "next",
-        searchTerm: term,
-        url: `${baseUrl}/search`,
       };
-      setPageRequested(searchPageRequested);
+      const filters = searchFields.map((thisField) => {
+        return {
+          filterTerm: thisField,
+          operator: "$regex",
+          filterValue: term,
+          options: "i",
+        };
+      });
+
+      let search = {
+        ...defaultPageRequest,
+        orFilters: filters,
+      };
+      setPageRequested(search);
       setPageNum(0);
     }
   };
@@ -339,7 +352,9 @@ export default function EnhancedTable({
           displayModal={displayAddBtn}
           setRefreshData={setRefreshData}
         />
-        <SearchBar handleTermSearch={handleTermSearch} />
+        {searchFields.length < 1 ? null : (
+          <SearchBar handleTermSearch={handleTermSearch} />
+        )}
       </div>
       <Box className="">
         <Paper sx={{ width: "100%", mb: 2 }}>

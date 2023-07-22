@@ -35,7 +35,7 @@ function Company() {
           pageChangeDirection,
           pageSize,
           sortDirection,
-          orFilters,
+          orFilters: orFilters.map((thisFilter) => JSON.stringify(thisFilter)),
         },
       };
       const response = await beApi.get(url, options);
@@ -62,6 +62,7 @@ function Company() {
             primaryKeyName="ticker"
             tableTitle="Company Directory"
             displayAddBtn
+            searchFields={["companyName", "raw.symbol"]}
           />
         </div>
       </div>

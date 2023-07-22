@@ -35,7 +35,7 @@ function Watch() {
           pageChangeDirection,
           pageSize,
           sortDirection,
-          orFilters,
+          orFilters: orFilters.map((thisFilter) => JSON.stringify(thisFilter)),
         },
       };
       const response = await beApi(url, options);
@@ -60,6 +60,7 @@ function Watch() {
         primaryKeyName="ticker"
         tableTitle="Watch List"
         displayAddBtn={false}
+        searchFields={["ticker", "industry", "exchange", "currency"]}
       />
     );
   }
