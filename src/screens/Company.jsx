@@ -19,29 +19,23 @@ function Company() {
   const fetchData = async (params) => {
     try {
       const {
-        filterField,
-        filterValue,
+        primaryKeyName,
+        primaryKeyValue,
         pageChangeDirection,
         pageSize,
-        primaryKeyValue,
-        searchField,
-        searchTerm,
         sortDirection,
-        sortField,
+        orFilters = [],
         url,
       } = params;
 
       const options = {
         params: {
-          filterField,
-          filterValue,
+          pageRefField: primaryKeyName,
+          pageRefValue: primaryKeyValue,
           pageChangeDirection,
           pageSize,
-          refDocKeyValue: primaryKeyValue,
-          searchField,
-          searchTerm,
           sortDirection,
-          sortField,
+          orFilters,
         },
       };
       const response = await beApi.get(url, options);

@@ -198,15 +198,11 @@ export default function EnhancedTable({
 
   // pageRequested object is used to fetch backend data - matches backend pagination;
   const defaultPageRequest = {
-    filterField: "",
-    filterValue: "",
     pageChangeDirection: "next",
     pageSize: INITIAL_PAGE_SIZE,
     primaryKeyValue: "0",
-    searchField: "ticker",
-    searchTerm: "",
+    primaryKeyName,
     sortDirection: "asc",
-    sortField: primaryKeyName,
     url: baseUrl,
   };
   const [pageRequested, setPageRequested] = useState(defaultPageRequest);
@@ -219,7 +215,6 @@ export default function EnhancedTable({
         setTotalCount(count);
         setRefreshData(false);
       })();
-      console.log("Table.jsx, toogleDatarefetch", toggleDataRefetch);
     } catch (err) {
       console.log("Error fetching summary data", err);
     }

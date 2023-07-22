@@ -5,8 +5,9 @@ import "./Filter.css";
 
 function Filter({ filterProps, setFilterProps, index }) {
   const onFilterChange = ({ id, value }) => {
-    const updated = { ...filterProps, [id]: value };
-    setFilterProps(updated, index);
+    const parsedValue = parseFloat(value);
+    const formattedValue = isNaN(parsedValue) ? value : parsedValue;
+    setFilterProps({ ...filterProps, [id]: formattedValue }, index);
   };
 
   return (

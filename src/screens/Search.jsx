@@ -1,15 +1,17 @@
-import React, { useState } from "react";
+import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
+import { Button } from "@mui/material";
+import React, { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+import beApi from "../api/beApi";
 import Filter from "../components/Filter";
 import DataTable from "../components/Table";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
-import { Button } from "@mui/material";
-import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
+import { Context as AuthContext } from "../context/authContext";
 import { searchTableColumns } from "../data/tableCols";
-import beApi from "../api/beApi";
 
 import "./Search.css";
 
-const defaultFilters = [
+const defaultAndFilters = [
   {
     filterTerm: "valueData.dcfToAvgPrice",
     operator: "$gt",
@@ -20,8 +22,16 @@ const defaultFilters = [
 ];
 
 function Search() {
-  const [filters, setFilters] = useState(defaultFilters);
+  const { state: authState } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const [filters, setFilters] = useState(defaultAndFilters);
   const [refetchDataToggle, setRefetchDataToggle] = useState(false);
+
+  useEffect(() => {
+    if (!authState.isSignedIn) {
+      navigate("/login");
+    }
+  });
 
   const handleAddFilter = () => {
     setFilters([...filters, { filterTerm: "", operator: "", filterValue: "" }]);
@@ -36,7 +46,7 @@ function Search() {
     setFilters(
       filters.map((thisFilter, thisIndex) => {
         if (thisIndex === index) {
-          return { ...filter };
+          return filter;
         }
         return thisFilter;
       })
@@ -67,20 +77,22 @@ function Search() {
   const fetchData = async (params) => {
     try {
       const {
+        primaryKeyName,
+        primaryKeyValue,
         pageChangeDirection,
         pageSize,
-        primaryKeyValue,
         sortDirection,
         url,
       } = params;
 
       const options = {
         params: {
+          pageRefField: primaryKeyName,
+          pageRefValue: primaryKeyValue,
           pageChangeDirection,
           pageSize,
-          refDocTickerYear: primaryKeyValue,
-          filter: filters.map((thisFilter) => JSON.stringify(thisFilter)),
           sortDirection,
+          andFilters: filters.map((thisFilter) => JSON.stringify(thisFilter)),
         },
       };
 
@@ -139,7 +151,7 @@ function Search() {
         <h2>Results</h2>
         <div className="search-result-inner">
           <DataTable
-            baseUrl="/metrics/advanced"
+            baseUrl="/metrics"
             columns={searchTableColumns}
             filterTerms={filters}
             getPageOfData={fetchData}
@@ -155,9 +167,3 @@ function Search() {
 }
 
 export default Search;
-
-// <RemoveCircleIcon
-// color="primary"
-// onClick={handleRemoveFilter(index)}
-// fontSize="large"
-// />
