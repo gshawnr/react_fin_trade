@@ -60,11 +60,11 @@ export const companyTableColumns = [
 export const watchTableColumns = [
   { name: "ticker", label: "Ticker" },
   { name: "exchange", label: "Exchange" },
-  { name: "currentPrice", label: "Current Price" },
+  { name: "lastPrice", label: "Last Price" },
   { name: "targetPrice", label: "Target Price" },
+  { name: "potentialReturn", label: "Potential Return" },
   { name: "dcfValue", label: "DCF" },
   { name: "currency", label: "Currency" },
-
   { name: "industry", label: "Industry" },
   { name: "lastFiscalYear", label: "Fiscal Year" },
 ];
