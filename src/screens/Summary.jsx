@@ -59,7 +59,7 @@ function Summary() {
           getPageOfData={fetchData}
           primaryKeyName="ticker_year"
           tableTitle="Financial Data Highlights"
-          searchFields={["ticker", "industry", "sector", "currency"]}
+          searchFields={["ticker", "industry"]}
         />
       </div>
     );

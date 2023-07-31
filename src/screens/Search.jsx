@@ -15,10 +15,10 @@ const defaultAndFilters = [
   {
     filterTerm: "valueData.dcfToAvgPrice",
     operator: "$gt",
-    filterValue: 2,
+    filterValue: 1.5,
   },
-  { filterTerm: "stabilityData.debtToEquity", operator: "$lt", filterValue: 2 },
-  { filterTerm: "valueData.earningsYield", operator: "$gt", filterValue: 0.1 },
+  { filterTerm: "stabilityData.debtToEquity", operator: "$lt", filterValue: 3 },
+  { filterTerm: "valueData.earningsYield", operator: "$gt", filterValue: 0.07 },
 ];
 
 function Search() {

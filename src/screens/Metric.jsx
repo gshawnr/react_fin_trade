@@ -72,7 +72,7 @@ function Metric() {
         primaryKeyName="ticker_year"
         tableTitle="Key Financial Metrics"
         displayAddBtn={false}
-        searchFields={["ticker", "industry", "sector"]}
+        searchFields={["ticker", "industry"]}
       />
     );
   }
