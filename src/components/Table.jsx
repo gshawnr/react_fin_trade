@@ -205,8 +205,14 @@ export default function EnhancedTable({
     primaryKeyName,
     sortDirection: "asc",
     url: baseUrl,
-    andFilters: [],
-    orFilters: [],
+    // andFilters: [{ filterTerm: "year", operator: "$eq", filterValue: "2022" }],
+    andFilters: [
+      { filterTerm: "potentialReturn", operator: "$gte", filterValue: 0.5 },
+    ],
+    orFilters: [
+      { filterTerm: "year", operator: "$eq", filterValue: "2022" },
+      { filterTerm: "year", operator: "$eq", filterValue: "2023" },
+    ],
     searchFields: [],
   };
   const [pageRequested, setPageRequested] = useState(defaultPageRequest);

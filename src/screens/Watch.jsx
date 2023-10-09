@@ -25,6 +25,7 @@ function Watch() {
         pageSize,
         sortDirection,
         orFilters,
+        andFilters,
         url,
       } = params;
 
@@ -36,6 +37,9 @@ function Watch() {
           pageSize,
           sortDirection,
           orFilters: orFilters.map((thisFilter) => JSON.stringify(thisFilter)),
+          andFilters: andFilters.map((thisFilter) =>
+            JSON.stringify(thisFilter)
+          ),
         },
       };
       const response = await beApi(url, options);
@@ -53,14 +57,14 @@ function Watch() {
   if (authState.isSignedIn) {
     return (
       <DataTable
-        baseUrl="/watch"
+        baseUrl="/watchcos"
         columns={watchTableColumns}
         filterTerms={filterValues}
         getPageOfData={fetchData}
         primaryKeyName="ticker"
         tableTitle="Watch List"
         displayAddBtn={false}
-        searchFields={["ticker", "industry", "exchange", "currency"]}
+        searchFields={["ticker", "industry"]}
       />
     );
   }
