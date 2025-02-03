@@ -36,6 +36,7 @@ const login = (dispatch) => {
   return async ({ email, password }) => {
     try {
       const response = await beApi.post("/signin", { email, password });
+      console.log("authContext login response", response);
       if (response?.data?.token) {
         dispatch({ type: "login", payload: { token: response.data.token } });
         navigationHelper.navigate("/");

@@ -21,9 +21,9 @@ const links = [
   { name: "Company", path: "/investing/company" },
   { name: "Summary", path: "/investing/summary" },
   { name: "Metrics", path: "/investing/metric" },
-  { name: "Search", path: "/investing/search" },
+  // { name: "Search", path: "/investing/search" },
   { name: "Watch List", path: "/investing/watch" },
-  { name: "About", path: "/about" },
+  // { name: "About", path: "/about" },
 ];
 
 function Nav() {
@@ -89,14 +89,14 @@ function Nav() {
               <Grid item xs={3}>
                 <Box sx={{ display: "flex" }}>
                   <Button
-                    variant="contained"
-                    sx={{ marginLeft: "auto", background: "rgba(2,0,36,1)" }}
+                    variant="text"
+                    sx={{ marginLeft: "auto", color: "#fff" }}
                     onClick={() => navigate("/login")}
                   >
                     Login
                   </Button>
-                  <Button variant="contained" sx={{ marginLeft: 1 }}>
-                    Signup
+                  <Button variant="text" sx={{ marginLeft: 1, color: "#fff" }}>
+                    Register
                   </Button>
                 </Box>
               </Grid>

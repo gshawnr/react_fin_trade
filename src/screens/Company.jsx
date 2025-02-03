@@ -1,13 +1,19 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { Context as AuthContext } from "../context/authContext";
-import DataTable from "../components/Table";
+import DataTable from "../components/BaseTable";
 import { companyTableColumns } from "../data/tableCols";
 import beApi from "../api/beApi";
+import CompanyViewModal from "../components/CompanyViewModal";
+import BaseModal from "../components/BaseModal";
 
 function Company() {
   const { state: authState } = useContext(AuthContext);
+
+  const [showCompanyModal, setShowCompanyModal] = useState(false);
+  const [companyViewData, setCompanyViewData] = useState(null);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -19,23 +25,26 @@ function Company() {
   const fetchData = async (params) => {
     try {
       const {
-        primaryKeyName,
-        primaryKeyValue,
+        orFilters = [],
+        andFilters = [],
         pageChangeDirection,
         pageSize,
+        primaryKeyValue,
+        pageRefValue,
         sortDirection,
-        orFilters = [],
         url,
       } = params;
 
       const options = {
         params: {
-          pageRefField: primaryKeyName,
-          pageRefValue: primaryKeyValue,
           pageChangeDirection,
           pageSize,
+          pageRefValue,
+          pageRefField: "ticker", // used fo sorting and pagination
+          primaryKeyValue,
           sortDirection,
-          orFilters: orFilters.map((thisFilter) => JSON.stringify(thisFilter)),
+          orFilters,
+          andFilters,
         },
       };
       const response = await beApi.get(url, options);
@@ -50,27 +59,35 @@ function Company() {
     }
   };
 
+  const handleCompanySelect = (item) => {
+    setCompanyViewData(item);
+    setShowCompanyModal(true);
+  };
+
   if (authState.isSignedIn) {
     return (
-      <div style={{ display: "flex", justifyContent: "space-around" }}>
-        <div style={{ width: "70%" }}>
+      // <div style={{ display: "flex", justifyContent: "space-around" }}>
+      <div>
+        <CompanyViewModal
+          showModal={showCompanyModal}
+          showModalHandler={setShowCompanyModal}
+          companyData={companyViewData}
+        />
+        <div>
           <DataTable
             baseUrl="/companies"
-            columns={companyTableColumns}
-            filterTerms={filterValues}
+            tableColumns={companyTableColumns}
             getPageOfData={fetchData}
             primaryKeyName="ticker"
+            pageRefField="ticker"
             tableTitle="Company Directory"
-            displayAddBtn
-            searchFields={["companyName", "raw.symbol"]}
+            searchColumns={"companyName,raw.symbol"}
+            onItemSelect={handleCompanySelect}
           />
         </div>
       </div>
     );
   }
 }
-
-// TODO
-const filterValues = ["companyName"];
 
 export default Company;

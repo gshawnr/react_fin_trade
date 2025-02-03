@@ -1,0 +1,25 @@
+.baseTable-tableHeader {
+  box-shadow: -3px -5px 10px rgba(0, 0, 0, 0.2);
+  margin-top: 5%;
+  text-align: center;
+  font-style: italic;
+}
+.baseTable-tableBody {
+  box-shadow: -3px 0px 3px rgba(0, 0, 0, 0.2);
+}
+
+.baseTable-title-grp h3 {
+  margin-left: 15px;
+}
+
+.baseTable-tableBody h2 {
+  text-align: center;
+}
+.baseTable-tableFooter {
+  box-shadow: -3px 0px 10px rgba(0, 0, 0, 0.2);
+}
+.baseTable-searchbar {
+  display: flex;
+  justify-content: flex-end;
+  padding: 1% 0;
+}

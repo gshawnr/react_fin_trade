@@ -37,7 +37,7 @@ export const metricTableColumns = [
   { name: "industry", label: "Industry", dataType: "string" },
   { name: "avgStockPrice", label: "Share Price", dataType: "number" },
   { name: "dcfValuePerShare", label: "DCF Value", dataType: "number" },
-  { name: "dcfToAvgPrice", label: "DCF to Price", dataType: "number" },
+  { name: "dcfToAvgPrice", label: "DCF / Price", dataType: "number" },
   { name: "priceToEarnings", label: "PE", dataType: "number" },
   { name: "earningsYield", label: "EY", dataType: "number" },
   { name: "priceToSales", label: "Price / Sales", dataType: "number" },
@@ -60,15 +60,12 @@ export const companyTableColumns = [
   { name: "ticker", label: "Symbol" },
 ];
 
-export const watchTableColumns = [
+export const targetTableColumns = [
+  { name: "fiscalYear", label: "Fiscal Year" },
   { name: "ticker", label: "Ticker" },
+  { name: "dcfValueUSD", label: "DCF USD" },
   { name: "exchange", label: "Exchange" },
   { name: "industry", label: "Company Industry" },
-  { name: "originalCurrency", label: "Original Currency" },
-  { name: "exchangeRate", label: "Exchange to USD" },
-  { name: "lastFiscalYear", label: "Fiscal Year" },
-  { name: "year", label: "Year" },
-  { name: "dcfValueUSD", label: "DCF USD" },
   { name: "marketPriceUSD", label: "Market Price USD" },
   { name: "targetPriceUSD", label: "Target Price USD" },
   { name: "potentialReturn", label: "Potential Return" },

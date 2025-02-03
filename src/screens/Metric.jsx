@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { Context as AuthContext } from "../context/authContext";
-import DataTable from "../components/Table";
+import DataTable from "../components/BaseTable";
 import { metricTableColumns } from "../data/tableCols";
 import beApi from "../api/beApi";
 
@@ -19,23 +19,28 @@ function Metric() {
   const fetchData = async (params) => {
     try {
       const {
-        primaryKeyName,
-        primaryKeyValue,
+        orFilters = [],
+        andFilters = [],
         pageChangeDirection,
         pageSize,
+        primaryKeyValue,
+        pageRefValue,
         sortDirection,
-        orFilters = [],
         url,
       } = params;
 
+      console.log("params", params);
+
       const options = {
         params: {
-          pageRefField: primaryKeyName,
-          pageRefValue: primaryKeyValue,
           pageChangeDirection,
           pageSize,
+          pageRefValue,
+          pageRefField: "ticker_year",
+          primaryKeyValue,
           sortDirection,
-          orFilters: orFilters.map((thisFilter) => JSON.stringify(thisFilter)),
+          orFilters,
+          andFilters,
         },
       };
       const response = await beApi(url, options);
@@ -66,24 +71,16 @@ function Metric() {
     return (
       <DataTable
         baseUrl="/metrics"
-        columns={metricTableColumns}
-        filterTerms={filterValues}
+        tableColumns={metricTableColumns}
         getPageOfData={fetchData}
         primaryKeyName="ticker_year"
+        pageRefField="ticker_year"
         tableTitle="Key Financial Metrics"
-        displayAddBtn={false}
-        searchFields={["ticker", "industry"]}
+        searchColumns={"ticker,industry,ticker_year"}
+        onItemSelect={(item) => console.log(item, "selected")}
       />
     );
   }
 }
-
-const filterValues = [
-  "ticker_year",
-  "dcfValuePerShare",
-  "priceToEarnings",
-  "priceToSales",
-  "priceToBook",
-];
 
 export default Metric;

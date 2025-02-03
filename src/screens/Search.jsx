@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 import beApi from "../api/beApi";
 import Filter from "../components/Filter";
-import DataTable from "../components/Table";
+import DataTable from "../components/BaseTable";
 import { Context as AuthContext } from "../context/authContext";
 import { searchTableColumns } from "../data/tableCols";
 
