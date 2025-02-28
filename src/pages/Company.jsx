@@ -6,13 +6,14 @@ import DataTable from "../components/BaseTable";
 import { companyTableColumns } from "../data/tableCols";
 import beApi from "../api/beApi";
 import CompanyViewModal from "../components/CompanyViewModal";
-import BaseModal from "../components/BaseModal";
+import ErrorHandler from "../components/ErrorHandler";
 
 function Company() {
   const { state: authState } = useContext(AuthContext);
 
   const [showCompanyModal, setShowCompanyModal] = useState(false);
   const [companyViewData, setCompanyViewData] = useState(null);
+  const [error, setError] = useState(null);
 
   const navigate = useNavigate();
 
@@ -47,6 +48,7 @@ function Company() {
           andFilters,
         },
       };
+
       const response = await beApi.get(url, options);
 
       if (response?.data) {
@@ -55,7 +57,7 @@ function Company() {
         return { data, count };
       }
     } catch (err) {
-      console.log("Error fetching summary data", err);
+      setError(err);
     }
   };
 
@@ -66,8 +68,8 @@ function Company() {
 
   if (authState.isSignedIn) {
     return (
-      // <div style={{ display: "flex", justifyContent: "space-around" }}>
       <div>
+        <ErrorHandler error={error} setError={setError} />
         <CompanyViewModal
           showModal={showCompanyModal}
           showModalHandler={setShowCompanyModal}

@@ -1,0 +1,27 @@
+.error-modal-container {
+  background-color: #ffffff;
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40%;
+  height: 40%;
+  border-radius: 10px;
+  overflow: scroll;
+}
+
+.error-modal-icon {
+  height: 40%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.error-modal-content {
+  height: 60%;
+  padding: 25px 15px 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}

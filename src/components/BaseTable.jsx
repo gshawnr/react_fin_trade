@@ -57,6 +57,16 @@ function EnhancedTableHead(props) {
   );
 }
 
+// DEFINE PAGE CONSTANTS
+// const INITIAL_PAGE_SIZE = 10;
+const defaultPageRequest = {
+  pageChangeDirection: "next",
+  pageSize: 15,
+  primaryKeyValue: "0",
+  pageRefValue: "0",
+  sortDirection: "asc",
+};
+
 export default function BaseTable({
   baseUrl,
   tableColumns,
@@ -67,27 +77,20 @@ export default function BaseTable({
   subtitle = "",
   searchColumns = "",
   onItemSelect,
+  defaultPage = defaultPageRequest,
+  initialSortDir = "asc",
 }) {
-  const INITIAL_PAGE_SIZE = 10;
-  // const [selected, setSelected] = useState([]);
-  const [sortDirection, setSortDirection] = useState("asc");
+  const [sortDirection, setSortDirection] = useState(initialSortDir);
   const [pageNum, setPageNum] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(INITIAL_PAGE_SIZE);
+  const [rowsPerPage, setRowsPerPage] = useState(defaultPage.pageSize);
   const [rows, setRows] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
   const [refreshData, setRefreshData] = useState(false);
   // const navigate = useNavigate();
 
   // pageRequested object is used to fetch backend data - matches backend pagination;
-  const defaultPageRequest = {
-    pageChangeDirection: "next",
-    pageSize: INITIAL_PAGE_SIZE,
-    primaryKeyValue: "0",
-    pageRefValue: "0",
-    sortDirection, // INFO not currently dynamically set
-    url: baseUrl,
-  };
-  const [pageRequested, setPageRequested] = useState(defaultPageRequest);
+  defaultPage.url = baseUrl; // TODO leave in place until all pages have defaultPage
+  const [pageRequested, setPageRequested] = useState(defaultPage);
 
   useEffect(() => {
     try {
@@ -145,9 +148,7 @@ export default function BaseTable({
     setPageNum(0);
     setRowsPerPage(size);
     setPageRequested({
-      ...pageRequested,
-      primaryKeyValue: "0",
-      pageRefValue: "0",
+      ...defaultPage,
       pageSize: size,
       pageChangeDirection: "next",
     });
@@ -265,7 +266,7 @@ export default function BaseTable({
           </TableContainer>
           <TablePagination
             className="baseTable-tableFooter"
-            rowsPerPageOptions={[5, 10, 25]}
+            rowsPerPageOptions={[5, 15, 25]}
             component="div"
             count={totalCount}
             rowsPerPage={rowsPerPage}

@@ -1,12 +1,8 @@
-import React, { useState } from "react";
-import { FormControl, TextField } from "@mui/material";
+import { FormControl } from "@mui/material";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
-
-import beApi from "../api/beApi";
+import Typography from "@mui/material/Typography";
+import React from "react";
 
 const style = {
   position: "absolute",
@@ -21,33 +17,10 @@ const style = {
   p: 4,
 };
 
-export default function BaseModal({
-  showModal,
-  modalHandler,
-  data,
-  widthVW = "100%",
-  heightVH = "100%",
-}) {
-  // const [open, setOpen] = useState(showModal);
-  // const [tickerInput, setTickerInput] = useState("");
-  // const handleOpen = () => setOpen(true);
-
+export default function BaseModal({ showModal, modalHandler, data }) {
   const handleClose = () => {
-    // setTickerInput("");
-    // setRefreshData(true);
-    // setOpen(false);
     modalHandler(false);
   };
-
-  // const onTickerSubmit = async () => {
-  //   try {
-  //     await beApi.get(`/annual/${tickerInput}`);
-  //     setTickerInput("");
-  //     handleClose();
-  //   } catch (err) {
-  //     console.log("unable to add company", err);
-  //   }
-  // };
 
   return (
     <div
@@ -58,35 +31,15 @@ export default function BaseModal({
         height: "100%",
       }}
     >
-      {/* // <div> */}
-      {/* <AddCircleIcon
-        sx={{ alignSelf: "center", display: displayModal ? "" : "none" }}
-        color="primary"
-        onClick={handleOpen}
-        fontSize="large"
-      /> */}
       <Modal
         open={showModal}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={{ ...style }}>
+        <Box sx={{ ...style, overflowY: "auto" }}>
           <Typography variant="body1">{data}</Typography>
-          <FormControl fullWidth sx={{}}>
-            {/* <TextField
-              label="Add Label Here dynamically"
-              margin="normal"
-              value={"Add Value here dynamically"}
-              onChange={(e) => console.log("add on change handler")}
-            /> */}
-            {/* <Button
-              variant="contained"
-              onClick={() => console.log("add button click handler")}
-            >
-              Button Label
-            </Button> */}
-          </FormControl>
+          <FormControl fullWidth sx={{}}></FormControl>
         </Box>
       </Modal>
     </div>

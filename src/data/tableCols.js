@@ -1,4 +1,5 @@
 export const summaryTableColumns = [
+  { name: "fiscalYear", label: "Release Date" },
   { name: "ticker_year", label: "Ticker / Year" },
   { name: "currentAssets", label: "Current Assets", dataType: "number" },
   { name: "assets", label: "Total Assets", dataType: "number" },
@@ -44,14 +45,14 @@ export const metricTableColumns = [
   { name: "priceToBook", label: "Price / Book", dataType: "number" },
 ];
 
-export const searchTableColumns = [
-  { name: "ticker_year", label: "Ticker / Year", dataType: "string" },
-  { name: "dcfToAvgPrice", label: "DCF to Price", dataType: "number" },
-  { name: "priceToEarnings", label: "PE", dataType: "number" },
-  { name: "earningsYield", label: "EY", dataType: "number" },
-  { name: "industry", label: "Industry", dataType: "string" },
-  { name: "sector", label: "Sector", dataType: "string" },
-];
+// export const searchTableColumns = [
+//   { name: "ticker_year", label: "Ticker / Year", dataType: "string" },
+//   { name: "dcfToAvgPrice", label: "DCF to Price", dataType: "number" },
+//   { name: "priceToEarnings", label: "PE", dataType: "number" },
+//   { name: "earningsYield", label: "EY", dataType: "number" },
+//   { name: "industry", label: "Industry", dataType: "string" },
+//   { name: "sector", label: "Sector", dataType: "string" },
+// ];
 
 export const companyTableColumns = [
   { name: "companyName", label: "Company" },
@@ -61,8 +62,8 @@ export const companyTableColumns = [
 ];
 
 export const targetTableColumns = [
-  { name: "fiscalYear", label: "Fiscal Year" },
-  { name: "ticker", label: "Ticker" },
+  { name: "ticker_year", label: "Ticker / Year" },
+  { name: "fiscalYear", label: "FYE" },
   { name: "dcfValueUSD", label: "DCF USD" },
   { name: "exchange", label: "Exchange" },
   { name: "industry", label: "Company Industry" },

@@ -1,14 +1,16 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { Context as AuthContext } from "../context/authContext";
 import DataTable from "../components/BaseTable";
-import { metricTableColumns } from "../data/tableCols";
+import { summaryTableColumns } from "../data/tableCols";
 import beApi from "../api/beApi";
+import ErrorHandler from "../components/ErrorHandler";
 
-function Metric() {
+function Summary() {
   const { state: authState } = useContext(AuthContext);
   const navigate = useNavigate();
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     if (!authState.isSignedIn) {
@@ -29,8 +31,6 @@ function Metric() {
         url,
       } = params;
 
-      console.log("params", params);
-
       const options = {
         params: {
           pageChangeDirection,
@@ -43,44 +43,35 @@ function Metric() {
           andFilters,
         },
       };
-      const response = await beApi(url, options);
+
+      const response = await beApi.get(url, options);
 
       if (response?.data) {
         const { data = [], count } = response.data;
-
-        // flatten nested data for presentation
-        const formattedData = data.map((obj) => {
-          let data = {
-            ...obj,
-            ...obj.performanceData,
-            ...obj.profitabilityData,
-            ...obj.stabilityData,
-            ...obj.valueData,
-          };
-          return data;
-        });
-
-        return { data: formattedData, count };
+        return { data, count };
       }
     } catch (err) {
-      console.log("Error fetching metric data", err);
+      setError(err);
     }
   };
 
   if (authState.isSignedIn) {
     return (
-      <DataTable
-        baseUrl="/metrics"
-        tableColumns={metricTableColumns}
-        getPageOfData={fetchData}
-        primaryKeyName="ticker_year"
-        pageRefField="ticker_year"
-        tableTitle="Key Financial Metrics"
-        searchColumns={"ticker,industry,ticker_year"}
-        onItemSelect={(item) => console.log(item, "selected")}
-      />
+      <div>
+        <ErrorHandler error={error} setError={setError} />
+        <DataTable
+          baseUrl="/summary"
+          tableColumns={summaryTableColumns}
+          getPageOfData={fetchData}
+          primaryKeyName="ticker_year"
+          pageRefField="ticker_year"
+          tableTitle="Financial Data Highlights"
+          searchColumns={"ticker,industry,ticker_year"}
+          onItemSelect={(item) => console.log(item, "selected")}
+        />
+      </div>
     );
   }
 }
 
-export default Metric;
+export default Summary;
